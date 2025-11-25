@@ -1,44 +1,40 @@
+import { fetchOrdersByEmail } from './ordersApi.js';
+
 // User Orders page functionality
 const formatCurrency = (value) => value.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' });
+let cachedOrders = [];
+
 document.addEventListener('DOMContentLoaded', () => {
     loadUserOrders();
-    
-    // Check if redirected from checkout with order ID
-    const urlParams = new URLSearchParams(window.location.search);
-    const orderId = urlParams.get('order');
-    if (orderId) {
-        setTimeout(() => {
-            showOrderDetails(orderId);
-        }, 500);
-    }
 });
 
-function loadUserOrders() {
-    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+async function loadUserOrders() {
     const container = document.getElementById('orders-container');
-    
     if (!container) return;
-    
-    if (orders.length === 0) {
-        container.innerHTML = `
-            <div class="text-center py-20">
-                <svg class="w-24 h-24 mx-auto mb-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                </svg>
-                <h3 class="text-2xl font-bold text-gray-900 mb-2">No orders yet</h3>
-                <p class="text-gray-600 mb-6">Start ordering to see your orders here</p>
-                <a href="menu.html" class="inline-block bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 text-white px-8 py-3 rounded-xl font-semibold hover:from-green-700 hover:via-emerald-700 hover:to-green-800 transition-all duration-200 shadow-lg hover:shadow-xl">
-                    Browse Menu
-                </a>
-            </div>
-        `;
+
+    renderOrdersState(container, 'loading');
+
+    const userEmail = getCurrentUserEmail();
+    if (!userEmail) {
+        renderOrdersState(container, 'noEmail');
+        return;
+    }
+
+    const { data, error } = await fetchOrdersByEmail(userEmail);
+    if (error) {
+        console.error('Failed to load orders', error);
+        renderOrdersState(container, 'error');
+        return;
+    }
+
+    cachedOrders = data;
+
+    if (!data.length) {
+        renderOrdersState(container, 'empty', userEmail);
         return;
     }
     
-    // Sort by newest first
-    const sortedOrders = [...orders].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-    
-    container.innerHTML = sortedOrders.map(order => `
+    container.innerHTML = data.map(order => `
         <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all cursor-pointer border border-gray-200" onclick="showOrderDetails('${order.id}')">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div class="flex-1">
@@ -67,11 +63,10 @@ function loadUserOrders() {
 }
 
 function showOrderDetails(orderId) {
-    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-    const order = orders.find(o => o.id === orderId);
+    const order = cachedOrders.find(o => o.id === orderId);
     
     if (!order) {
-        alert('Order not found');
+        alert('Order not found for this user.');
         return;
     }
     
@@ -100,6 +95,17 @@ function showOrderDetails(orderId) {
                 <div class="bg-gray-50 rounded-lg p-4 space-y-2">
                     <p><span class="font-semibold">Address:</span> ${order.delivery_address}</p>
                     ${order.location ? `<p><span class="font-semibold">Location:</span> ${order.location.address || 'N/A'}</p>` : ''}
+                </div>
+            </div>
+            
+            <div>
+                <h4 class="text-sm font-semibold text-gray-600 mb-2">Payment Details</h4>
+                <div class="bg-gray-50 rounded-lg p-4 space-y-2">
+                    <p><span class="font-semibold">Method:</span> ${order.payment_method === 'gcash' ? 'GCash / e-Wallet' : 'Card'}</p>
+                    ${order.payment_method === 'gcash' ? `
+                        <p><span class="font-semibold">GCash Number:</span> ${order.gcash_number || '—'}</p>
+                        <p><span class="font-semibold">Account Name:</span> ${order.gcash_account_name || '—'}</p>
+                    ` : ''}
                 </div>
             </div>
             
@@ -144,3 +150,46 @@ function showOrderDetails(orderId) {
 function closeOrderModal() {
     document.getElementById('order-modal').classList.add('hidden');
 }
+
+function getCurrentUserEmail() {
+    return (localStorage.getItem('lastCustomerEmail') || '').toLowerCase();
+}
+
+function renderOrdersState(container, state, email = '') {
+    const states = {
+        loading: `
+            <div class="text-center py-20 text-gray-500">
+                <p class="text-lg font-semibold">Loading your orders...</p>
+            </div>
+        `,
+        noEmail: `
+            <div class="text-center py-20">
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">No orders on this device</h3>
+                <p class="text-gray-600 mb-6">Complete a checkout and we'll remember the email you use so only your orders appear here.</p>
+                <a href="menu.html" class="inline-block bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 text-white px-8 py-3 rounded-xl font-semibold hover:from-green-700 hover:via-emerald-700 hover:to-green-800 transition-all duration-200 shadow-lg hover:shadow-xl">
+                    Browse Menu
+                </a>
+            </div>
+        `,
+        empty: `
+            <div class="text-center py-20">
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">No orders for ${email}</h3>
+                <p class="text-gray-600 mb-6">Place a new order with this email or switch browsers to see another history.</p>
+                <a href="menu.html" class="inline-block bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 text-white px-8 py-3 rounded-xl font-semibold hover:from-green-700 hover:via-emerald-700 hover:to-green-800 transition-all duration-200 shadow-lg hover:shadow-xl">
+                    Order Again
+                </a>
+            </div>
+        `,
+        error: `
+            <div class="text-center py-20">
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">Unable to load orders</h3>
+                <p class="text-gray-600 mb-6">Please check your connection or try again later.</p>
+            </div>
+        `
+    };
+
+    container.innerHTML = states[state] || '';
+}
+
+window.showOrderDetails = showOrderDetails;
+window.closeOrderModal = closeOrderModal;

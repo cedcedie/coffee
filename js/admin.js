@@ -1,30 +1,63 @@
+import { fetchAllOrders, updateOrderStatusById } from './ordersApi.js';
+import { fetchProducts as fetchRemoteProducts, createProduct as createRemoteProduct, updateProduct as updateRemoteProduct, deleteProduct as deleteRemoteProduct } from './productsApi.js';
+
 // Admin Dashboard functionality
 const formatCurrency = (value) => value.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' });
-let orders = JSON.parse(localStorage.getItem('orders') || '[]');
-let adminProducts = JSON.parse(localStorage.getItem('adminProducts') || '[]');
+let orders = [];
+let adminProducts = [];
 let currentOrderFilter = 'all';
-
-if (!adminProducts.length) {
-    adminProducts = getDefaultProducts();
-    localStorage.setItem('adminProducts', JSON.stringify(adminProducts));
-}
-
-if (!orders.length) {
-    orders = getPlaceholderOrders();
-    localStorage.setItem('orders', JSON.stringify(orders));
-}
+let isSyncingOrders = false;
+let orderSyncTimer = null;
+const ORDER_POLL_INTERVAL = 7000;
 
 document.addEventListener('DOMContentLoaded', () => {
-    setupSectionNavigation();
-    loadOrders();
-    loadProducts();
-    handleProductForm();
-    updateStats();
-    updateDashboardTimestamp();
-
-    // Simulate real-time order notifications (in production, use WebSockets or Supabase Realtime)
-    setInterval(checkNewOrders, 3000);
+    initAdminDashboard();
 });
+
+async function initAdminDashboard() {
+    setupSectionNavigation();
+    await refreshProducts(true);
+    handleProductForm();
+    await refreshOrders(true);
+    updateDashboardTimestamp();
+    startOrderPolling();
+}
+
+async function refreshOrders(showLoadingState = false) {
+    const ordersList = document.getElementById('orders-list');
+    if (!ordersList || isSyncingOrders) return;
+
+    if (showLoadingState) {
+        ordersList.innerHTML = `
+            <div class="text-center py-16 text-gray-500">
+                <p class="text-lg font-semibold">Syncing latest orders…</p>
+            </div>
+        `;
+    }
+
+    isSyncingOrders = true;
+    try {
+        const { data, error } = await fetchAllOrders();
+        if (error) throw error;
+        orders = data || [];
+        loadOrders(currentOrderFilter);
+        updateStats();
+    } catch (error) {
+        console.error('Unable to load orders', error);
+        ordersList.innerHTML = `
+            <div class="text-center py-16 text-red-500">
+                <p class="text-lg font-semibold">Unable to load orders. Please refresh.</p>
+            </div>
+        `;
+    } finally {
+        isSyncingOrders = false;
+    }
+}
+
+function startOrderPolling() {
+    if (orderSyncTimer) clearInterval(orderSyncTimer);
+    orderSyncTimer = setInterval(() => refreshOrders(false), ORDER_POLL_INTERVAL);
+}
 
 function loadOrders(filter = 'all') {
     const ordersList = document.getElementById('orders-list');
@@ -112,6 +145,17 @@ function showOrderDetails(orderId) {
             </div>
             
             <div>
+                <h4 class="text-sm font-semibold text-gray-600 mb-2">Payment Details</h4>
+                <div class="bg-gray-50 rounded-lg p-4 space-y-2">
+                    <p><span class="font-semibold">Method:</span> ${order.payment_method === 'gcash' ? 'GCash / e-Wallet' : 'Card'}</p>
+                    ${order.payment_method === 'gcash' ? `
+                        <p><span class="font-semibold">GCash Number:</span> ${order.gcash_number || '—'}</p>
+                        <p><span class="font-semibold">Account Name:</span> ${order.gcash_account_name || '—'}</p>
+                    ` : ''}
+                </div>
+            </div>
+            
+            <div>
                 <h4 class="text-sm font-semibold text-gray-600 mb-2">Order Items</h4>
                 <div class="space-y-2">
                     ${order.items.map(item => `
@@ -150,14 +194,14 @@ function closeOrderModal() {
     document.getElementById('order-modal').classList.add('hidden');
 }
 
-function updateOrderStatus(orderId, status) {
-    const order = orders.find(o => o.id === orderId);
-    if (order) {
-        order.status = status;
-        localStorage.setItem('orders', JSON.stringify(orders));
-        loadOrders(currentOrderFilter);
-        updateStats();
+async function updateOrderStatus(orderId, status) {
+    try {
+        await updateOrderStatusById(orderId, status);
+        await refreshOrders(false);
         closeOrderModal();
+    } catch (error) {
+        console.error('Unable to update order status', error);
+        alert('Unable to update order status right now.');
     }
 }
 
@@ -180,20 +224,6 @@ function updateStats() {
     updateDashboardTimestamp();
 }
 
-function checkNewOrders() {
-    // In production, this would check Supabase Realtime for new orders
-    // For now, we'll just reload orders
-    const currentCount = orders.length;
-    orders = JSON.parse(localStorage.getItem('orders') || '[]');
-
-    if (orders.length > currentCount) {
-        document.getElementById('new-order-notification').classList.remove('hidden');
-        showOrderAlert();
-        loadOrders(currentOrderFilter);
-        updateStats();
-    }
-}
-
 function setupSectionNavigation() {
     const triggers = document.querySelectorAll('[data-section-target]');
     if (!triggers.length) return;
@@ -207,7 +237,13 @@ function setupSectionNavigation() {
 
 function activateSection(sectionId) {
     document.querySelectorAll('.admin-section').forEach(section => {
-        section.classList.toggle('hidden', section.id !== sectionId);
+        if (section.id === sectionId) {
+            section.classList.remove('hidden');
+            requestAnimationFrame(() => section.classList.add('admin-section-active'));
+        } else {
+            section.classList.remove('admin-section-active');
+            section.classList.add('hidden');
+        }
     });
 
     document.querySelectorAll('[data-section-target]').forEach(trigger => {
@@ -262,6 +298,33 @@ function getProductImagePlaceholder(index = 0) {
     return placeholders[index % placeholders.length];
 }
 
+async function refreshProducts(showLoading = false) {
+    const tableBody = document.getElementById('products-table-body');
+    if (!tableBody) return;
+
+    if (showLoading) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="5" class="px-6 py-10 text-center text-gray-500">Syncing products…</td>
+            </tr>
+        `;
+    }
+
+    try {
+        const { data, error } = await fetchRemoteProducts();
+        if (error) throw error;
+        adminProducts = data || [];
+        loadProducts();
+    } catch (error) {
+        console.error('Unable to load products', error);
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="5" class="px-6 py-10 text-center text-red-500">Unable to load products. Please refresh.</td>
+            </tr>
+        `;
+    }
+}
+
 function loadProducts() {
     const tableBody = document.getElementById('products-table-body');
     if (!tableBody) return;
@@ -289,7 +352,7 @@ function loadProducts() {
         <tr class="hover:bg-gradient-to-r hover:from-gray-50 hover:to-white transition-all duration-200 group">
             <td class="px-6 py-5">
                 <div class="flex items-center gap-4">
-                    <img src="${product.image || getProductImagePlaceholder(index)}" alt="${product.name}" class="w-14 h-14 rounded-2xl border-2 border-gray-100 object-cover shadow-sm group-hover:shadow-md transition-all" onerror="this.src='${getProductImagePlaceholder(index)}'">
+                    <img src="${product.image_url || getProductImagePlaceholder(index)}" alt="${product.name}" class="w-14 h-14 rounded-2xl border-2 border-gray-100 object-cover shadow-sm group-hover:shadow-md transition-all" onerror="this.src='${getProductImagePlaceholder(index)}'">
                     <div class="flex-1 min-w-0">
                         <p class="font-bold text-gray-900 text-base">${product.name}</p>
                         <p class="text-xs font-medium text-gray-500 mt-0.5">${product.category || 'Uncategorised'}</p>
@@ -298,10 +361,10 @@ function loadProducts() {
                 </div>
             </td>
             <td class="px-6 py-5">
-                <span class="font-bold text-gray-900 text-base">${formatCurrency(product.price || 0)}</span>
+                <span class="font-bold text-gray-900 text-base">${formatCurrency(Number(product.price) || getPrimaryPrice(product) || 0)}</span>
             </td>
             <td class="px-6 py-5">
-                <span class="text-sm font-medium text-gray-600">${product.sizeOption || 'Single size'}</span>
+                <span class="text-sm font-medium text-gray-600">${product.size_option || 'Single size'}</span>
             </td>
             <td class="px-6 py-5">
                 <span class="${getAvailabilityBadge(product.availability)}">${product.availability || 'In stock'}</span>
@@ -320,53 +383,73 @@ function handleProductForm() {
     const form = document.getElementById('product-form');
     if (!form) return;
 
-    form.addEventListener('submit', (event) => {
+    const previewEl = document.getElementById('product-image-preview');
+    const urlInput = form.querySelector('input[name="productImage"]');
+    const fileInput = form.querySelector('input[name="productImageUpload"]');
+
+    setupImagePreviewListeners({ urlInput, fileInput, previewEl });
+
+    form.addEventListener('submit', async (event) => {
         event.preventDefault();
         const data = new FormData(form);
 
-        const newProduct = {
-            id: 'PROD-' + Date.now(),
-            name: (data.get('productName') || '').trim(),
-            category: (data.get('productCategory') || 'Coffee').trim(),
-            price: parseFloat(data.get('productPrice')) || 0,
-            image: (data.get('productImage') || '').trim() || null,
-            description: (data.get('productDescription') || '').trim() || null,
-            sizeOption: data.get('productSize') || 'Single size',
-            availability: data.get('productAvailability') || 'In stock'
-        };
-
-        adminProducts.unshift(newProduct);
-        localStorage.setItem('adminProducts', JSON.stringify(adminProducts));
-        loadProducts();
+        try {
+            const payload = await buildProductPayloadFromForm({
+                data,
+                fileField: 'productImageUpload',
+                urlField: 'productImage'
+            });
+            payload.slug = payload.slug || `PROD-${Date.now()}`;
+            await createRemoteProduct(payload);
+            await refreshProducts();
         form.reset();
-        
-        // Show success message
-        alert(`Product "${newProduct.name}" added successfully!`);
+            setPreviewImage(previewEl, getProductImagePlaceholder());
+            alert(`Product "${payload.name}" added successfully!`);
+        } catch (error) {
+            console.error('Unable to add product', error);
+            alert('Unable to add this product right now.');
+        }
+    });
+
+    form.addEventListener('reset', () => {
+        setTimeout(() => {
+            setPreviewImage(previewEl, getProductImagePlaceholder());
+            if (fileInput) fileInput.value = '';
+        }, 0);
     });
 
     // Handle edit form
     const editForm = document.getElementById('product-edit-form');
     if (editForm) {
-        editForm.addEventListener('submit', (event) => {
+        const editPreviewEl = document.getElementById('edit-product-image-preview');
+        const editUrlInput = document.getElementById('edit-product-image');
+        const editFileInput = document.getElementById('edit-product-image-upload');
+
+        setupImagePreviewListeners({ urlInput: editUrlInput, fileInput: editFileInput, previewEl: editPreviewEl });
+
+        editForm.addEventListener('submit', async (event) => {
             event.preventDefault();
             const productId = document.getElementById('edit-product-id').value;
             const product = adminProducts.find(p => p.id === productId);
             
             if (!product) return;
 
-            product.name = document.getElementById('edit-product-name').value.trim();
-            product.category = document.getElementById('edit-product-category').value.trim();
-            product.price = parseFloat(document.getElementById('edit-product-price').value) || 0;
-            product.image = document.getElementById('edit-product-image').value.trim() || null;
-            product.description = document.getElementById('edit-product-description').value.trim() || null;
-            product.sizeOption = document.getElementById('edit-product-size').value;
-            product.availability = document.getElementById('edit-product-availability').value;
-
-            localStorage.setItem('adminProducts', JSON.stringify(adminProducts));
-            loadProducts();
+            try {
+                const formData = new FormData(editForm);
+                const payload = await buildProductPayloadFromForm({
+                    data: formData,
+                    existingProduct: product,
+                    fileField: 'editProductImageUpload',
+                    urlField: 'editProductImage'
+                });
+                await updateRemoteProduct(productId, payload);
+                await refreshProducts();
             closeProductEditModal();
-            
-            alert(`Product "${product.name}" updated successfully!`);
+                alert(`Product "${payload.name}" updated successfully!`);
+            } catch (error) {
+                console.error('Unable to update product', error);
+                alert('Unable to update this product right now.');
+            }
         });
     }
 }
@@ -390,11 +473,18 @@ function editProduct(productId) {
     document.getElementById('edit-product-id').value = product.id;
     document.getElementById('edit-product-name').value = product.name;
     document.getElementById('edit-product-category').value = product.category || '';
-    document.getElementById('edit-product-price').value = product.price || 0;
-    document.getElementById('edit-product-image').value = product.image || '';
+    document.getElementById('edit-product-price').value = getPrimaryPrice(product) || 0;
+    const editImageInput = document.getElementById('edit-product-image');
+    const editImagePreview = document.getElementById('edit-product-image-preview');
+    const editFileInput = document.getElementById('edit-product-image-upload');
+    editImageInput.value = product.image_url || '';
     document.getElementById('edit-product-description').value = product.description || '';
-    document.getElementById('edit-product-size').value = product.sizeOption || 'Single size';
+    document.getElementById('edit-product-size').value = product.size_option || 'Single size';
     document.getElementById('edit-product-availability').value = product.availability || 'In stock';
+    setPreviewImage(editImagePreview, product.image_url || getProductImagePlaceholder());
+    if (editFileInput) {
+        editFileInput.value = '';
+    }
 
     document.getElementById('product-edit-modal').classList.remove('hidden');
 }
@@ -404,173 +494,19 @@ function closeProductEditModal() {
     document.getElementById('product-edit-form').reset();
 }
 
-function confirmArchiveProduct(productId, productName) {
-    if (confirm(`Are you sure you want to archive "${productName}"?\n\nThis will remove it from the product catalog.`)) {
-        archiveProduct(productId);
-        alert(`Product "${productName}" has been archived.`);
+async function confirmArchiveProduct(productId, productName) {
+    if (!confirm(`Are you sure you want to archive "${productName}"?\n\nThis will remove it from the product catalog.`)) {
+        return;
     }
-}
 
-function archiveProduct(productId) {
-    adminProducts = adminProducts.filter(product => product.id !== productId);
-    localStorage.setItem('adminProducts', JSON.stringify(adminProducts));
-    loadProducts();
-}
-
-function getDefaultProducts() {
-    return [
-        {
-            id: 'PROD-1001',
-            name: 'Mountain Espresso',
-            category: 'Coffee',
-            price: 180,
-            sizeOption: 'Small / Medium / Large',
-            availability: 'In stock',
-            image: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=800&q=80',
-            description: 'Bold and intense espresso with rich notes of dark chocolate, caramel, and a hint of nutty undertones. Perfect for those who crave a strong, full-bodied coffee experience.'
-        },
-        {
-            id: 'PROD-1002',
-            name: 'Balagtas Honey Wash',
-            category: 'Signature Bean',
-            price: 220,
-            sizeOption: 'Single size',
-            availability: 'Low stock',
-            image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=800&q=80',
-            description: 'Our signature single-origin coffee with a unique honey-washed process. Features a smooth, sweet profile with floral notes, hints of citrus, and a delicate honey-like finish that lingers on the palate.'
-        },
-        {
-            id: 'PROD-1003',
-            name: 'Forest Latte',
-            category: 'Coffee',
-            price: 195,
-            sizeOption: 'Small / Medium / Large',
-            availability: 'In stock',
-            image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=800&q=80',
-            description: 'Creamy and smooth latte made with our house blend espresso and steamed milk. Topped with delicate foam art, this comforting drink offers a perfect balance of coffee richness and milk sweetness.'
-        },
-        {
-            id: 'PROD-1004',
-            name: 'Cappuccino Classic',
-            category: 'Coffee',
-            price: 185,
-            sizeOption: 'Small / Medium / Large',
-            availability: 'In stock',
-            image: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=800&q=80',
-            description: 'Traditional Italian cappuccino with equal parts espresso, steamed milk, and velvety foam. Rich espresso base complemented by the creamy texture of perfectly frothed milk.'
-        },
-        {
-            id: 'PROD-1005',
-            name: 'Cold Brew Delight',
-            category: 'Coffee',
-            price: 200,
-            sizeOption: 'Single size',
-            availability: 'In stock',
-            image: 'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=800&q=80',
-            description: 'Smooth and refreshing cold brew steeped for 18 hours. Low acidity with chocolate and caramel notes, served over ice. Perfect for hot days or when you need a refreshing caffeine boost.'
-        },
-        {
-            id: 'PROD-1006',
-            name: 'Butter Croissant',
-            category: 'Bread',
-            price: 150,
-            sizeOption: 'Single size',
-            availability: 'In stock',
-            image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80',
-            description: 'Flaky, buttery French croissant baked fresh daily. Golden, crispy exterior with a soft, airy interior. Perfect pairing with any coffee or enjoyed on its own.'
-        },
-        {
-            id: 'PROD-1007',
-            name: 'Americano',
-            category: 'Coffee',
-            price: 170,
-            sizeOption: 'Small / Medium / Large',
-            availability: 'In stock',
-            image: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=800&q=80',
-            description: 'Classic Americano made with our premium espresso shots and hot water. Clean, smooth taste with a full-bodied flavor profile. Ideal for those who prefer a stronger coffee without the intensity of straight espresso.'
-        },
-        {
-            id: 'PROD-1008',
-            name: 'Mocha Dream',
-            category: 'Coffee',
-            price: 210,
-            sizeOption: 'Small / Medium / Large',
-            availability: 'In stock',
-            image: 'https://images.unsplash.com/photo-1570968914860-a693f2704e1c?auto=format&fit=crop&w=800&q=80',
-            description: 'Indulgent mocha combining rich espresso with premium dark chocolate and steamed milk. Topped with whipped cream and chocolate shavings. A dessert-like treat for chocolate and coffee lovers.'
-        }
-    ];
-}
-
-function getPlaceholderOrders() {
-    const now = new Date();
-    const yesterday = new Date(now);
-    yesterday.setDate(yesterday.getDate() - 1);
-    const twoDaysAgo = new Date(now);
-    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-
-    return [
-        {
-            id: 'ORD-1001',
-            customer_name: 'Maria Santos',
-            customer_email: 'maria.santos@email.com',
-            status: 'pending',
-            total: 550,
-            subtotal: 430,
-            delivery: 120,
-            created_at: now.toISOString(),
-            items: [
-                { name: 'Mountain Espresso', quantity: 2, price: 180, size: 'Large' },
-                { name: 'Butter Croissant', quantity: 1, price: 150, size: 'Single size' }
-            ],
-            delivery_address: '123 Main Street, Balagtas, Bulacan'
-        },
-        {
-            id: 'ORD-1002',
-            customer_name: 'Juan Dela Cruz',
-            customer_email: 'juan.delacruz@email.com',
-            status: 'completed',
-            total: 370,
-            subtotal: 250,
-            delivery: 120,
-            created_at: yesterday.toISOString(),
-            items: [
-                { name: 'Forest Latte', quantity: 1, price: 195, size: 'Medium' },
-                { name: 'Butter Croissant', quantity: 1, price: 150, size: 'Single size' }
-            ],
-            delivery_address: '456 Oak Avenue, Balagtas, Bulacan'
-        },
-        {
-            id: 'ORD-1003',
-            customer_name: 'Ana Garcia',
-            customer_email: 'ana.garcia@email.com',
-            status: 'pending',
-            total: 420,
-            subtotal: 300,
-            delivery: 120,
-            created_at: new Date(now.getTime() - 2 * 60 * 60 * 1000).toISOString(),
-            items: [
-                { name: 'Cappuccino Classic', quantity: 1, price: 185, size: 'Large' },
-                { name: 'Cold Brew Delight', quantity: 1, price: 200, size: 'Single size' }
-            ],
-            delivery_address: '789 Pine Road, Balagtas, Bulacan'
-        },
-        {
-            id: 'ORD-1004',
-            customer_name: 'Carlos Rodriguez',
-            customer_email: 'carlos.rodriguez@email.com',
-            status: 'completed',
-            total: 630,
-            subtotal: 510,
-            delivery: 120,
-            created_at: twoDaysAgo.toISOString(),
-            items: [
-                { name: 'Balagtas Honey Wash', quantity: 2, price: 220, size: 'Single size' },
-                { name: 'Mocha Dream', quantity: 1, price: 210, size: 'Large' }
-            ],
-            delivery_address: '321 Elm Street, Balagtas, Bulacan'
-        }
-    ];
+    try {
+        await deleteRemoteProduct(productId);
+        await refreshProducts();
+        alert(`Product "${productName}" has been archived.`);
+    } catch (error) {
+        console.error('Unable to delete product', error);
+        alert('Unable to archive this product right now.');
+    }
 }
 
 function updateDashboardTimestamp() {
@@ -585,7 +521,118 @@ function filterOrders(status) {
     loadOrders(status);
 }
 
-window.archiveProduct = archiveProduct;
+function setupImagePreviewListeners({ urlInput, fileInput, previewEl }) {
+    if (urlInput) {
+        urlInput.addEventListener('input', () => {
+            const value = urlInput.value.trim();
+            if (value) setPreviewImage(previewEl, value);
+        });
+    }
+
+    if (fileInput) {
+        fileInput.addEventListener('change', event => {
+            const file = event.target.files?.[0];
+            if (file) {
+                const objectUrl = URL.createObjectURL(file);
+                setPreviewImage(previewEl, objectUrl);
+            }
+        });
+    }
+}
+
+function setPreviewImage(previewEl, src) {
+    if (!previewEl) return;
+    previewEl.src = src || getProductImagePlaceholder();
+}
+
+async function extractImageValue(formData, fileField, urlField) {
+    const file = formData.get(fileField);
+    if (file && typeof file === 'object' && file.size) {
+        return await readFileAsDataURL(file);
+    }
+    const url = (formData.get(urlField) || '').trim();
+    if (url) return url;
+    return null;
+}
+
+function readFileAsDataURL(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
+
+function getPrimaryPrice(product = {}) {
+    if (typeof product.price === 'number') {
+        return product.price;
+    }
+    if (Array.isArray(product.sizes) && product.sizes.length) {
+        return Number(product.sizes[0].price) || 0;
+    }
+    return 0;
+}
+
+async function buildProductPayloadFromForm({ data, existingProduct = {}, fileField, urlField }) {
+    const name = (data.get('productName') || data.get('editProductName') || '').trim();
+    const category = (data.get('productCategory') || 'Coffee').trim();
+    const price = parseFloat(data.get('productPrice')) || getPrimaryPrice(existingProduct) || 0;
+    const sizeOption = data.get('productSize') || 'Single size';
+    const availability = data.get('productAvailability') || 'In stock';
+    const description = (data.get('productDescription') || '').trim() || null;
+    const image = await extractImageValue(data, fileField, urlField) || existingProduct.image_url || getProductImagePlaceholder();
+    const sizes = buildSizesArray(sizeOption, price);
+    const defaultSize = existingProduct.default_size || sizes[0]?.key || 'standard';
+
+    return {
+        slug: existingProduct.slug || null,
+        name,
+        category,
+        category_label: existingProduct.category_label || deriveCategoryLabel(category),
+        badge: existingProduct.badge || deriveBadge(category),
+        description,
+        image_url: image,
+        availability,
+        cta_theme: existingProduct.cta_theme || inferThemeFromCategory(category),
+        size_option: sizeOption,
+        default_size: defaultSize,
+        price,
+        sizes
+    };
+}
+
+function buildSizesArray(sizeOption, price) {
+    const basePrice = Number(price) || 0;
+    if ((sizeOption || '').toLowerCase().includes('small')) {
+        return [
+            { key: 'small', label: 'Small', price: Math.max(basePrice - 20, 0) },
+            { key: 'medium', label: 'Medium', price: basePrice },
+            { key: 'large', label: 'Large', price: basePrice + 20 }
+        ];
+    }
+
+    return [
+        { key: 'standard', label: 'Standard', price: basePrice }
+    ];
+}
+
+function deriveCategoryLabel(category = '') {
+    return category;
+}
+
+function deriveBadge(category = '') {
+    if (!category) return 'Featured';
+    if (category.toLowerCase().includes('bread')) return '🥖 Fresh';
+    if (category.toLowerCase().includes('pastry')) return '🥐 Pastry';
+    return '🌿 Signature';
+}
+
+function inferThemeFromCategory(category = '') {
+    const lower = category.toLowerCase();
+    return lower.includes('bread') || lower.includes('pastr') ? 'amber' : 'green';
+}
+
 window.filterOrders = filterOrders;
 window.editProduct = editProduct;
 window.confirmArchiveProduct = confirmArchiveProduct;
