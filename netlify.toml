@@ -1,0 +1,6 @@
+# Netlify Configuration
+[build]
+  command = "npm run build"
+  publish = "."
+
+# Redirects are handled by _redirects file in root directory
