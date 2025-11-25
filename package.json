@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tailwindcss -i ./css/input.css -o ./css/style.css --config ./config/tailwind.config.js --minify",
     "build-css": "npx tailwindcss -i ./css/input.css -o ./css/style.css --config ./config/tailwind.config.js --minify",
     "watch-css": "npx tailwindcss -i ./css/input.css -o ./css/style.css --config ./config/tailwind.config.js --watch"
   },
