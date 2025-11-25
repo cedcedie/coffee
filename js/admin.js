@@ -55,22 +55,22 @@ function loadOrders(filter = 'all') {
     filteredOrders.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
     ordersList.innerHTML = filteredOrders.map(order => `
-        <div class="bg-white border border-gray-200 rounded-xl p-5 hover:border-gray-300 hover:shadow-md transition-all cursor-pointer" onclick="showOrderDetails('${order.id}')">
+        <div class="bg-gradient-to-br from-white to-gray-50 border border-gray-100 rounded-2xl p-6 hover:border-green-200 hover:shadow-xl transition-all duration-300 cursor-pointer group" onclick="showOrderDetails('${order.id}')">
             <div class="flex items-center justify-between">
                 <div class="flex-1">
-                    <div class="flex items-center gap-3 mb-2">
-                        <span class="text-lg font-bold text-gray-900">Order #${order.id}</span>
-                        <span class="px-3 py-1 rounded-full text-xs font-semibold ${
-                            order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                            order.status === 'completed' ? 'bg-green-100 text-green-800' :
-                            'bg-gray-100 text-gray-800'
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="text-xl font-bold text-gray-900 group-hover:text-green-700 transition-colors">Order #${order.id}</span>
+                        <span class="px-4 py-1.5 rounded-full text-xs font-bold shadow-sm ${
+                            order.status === 'pending' ? 'bg-gradient-to-r from-yellow-100 to-amber-100 text-yellow-800 border border-yellow-200' :
+                            order.status === 'completed' ? 'bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border border-green-200' :
+                            'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 border border-gray-300'
                         }">${order.status}</span>
                     </div>
-                    <p class="text-sm text-gray-600 mb-1">${order.customer_name} • ${order.customer_email}</p>
-                    <p class="text-sm font-medium text-gray-700">${order.items.length} item(s) • <span class="text-green-600">${formatCurrency(order.total)}</span></p>
+                    <p class="text-sm font-medium text-gray-600 mb-2">${order.customer_name} • ${order.customer_email}</p>
+                    <p class="text-sm font-semibold text-gray-700">${order.items.length} item(s) • <span class="text-green-600 font-bold">${formatCurrency(order.total)}</span></p>
                 </div>
                 <div class="text-right ml-6">
-                    <p class="text-sm font-medium text-gray-700">${new Date(order.created_at).toLocaleDateString()}</p>
+                    <p class="text-sm font-semibold text-gray-700">${new Date(order.created_at).toLocaleDateString()}</p>
                     <p class="text-xs text-gray-500 mt-1">${new Date(order.created_at).toLocaleTimeString()}</p>
                 </div>
             </div>
@@ -222,18 +222,18 @@ function activateSection(sectionId) {
 function styleSectionTrigger(trigger, isActive) {
     if (trigger.classList.contains('sidebar-link')) {
         if (isActive) {
-            trigger.classList.add('bg-gray-100', 'text-gray-900');
+            trigger.classList.add('bg-gradient-to-r', 'from-green-50', 'to-emerald-50', 'text-green-700', 'shadow-sm');
             trigger.classList.remove('text-gray-700');
         } else {
-            trigger.classList.remove('bg-gray-100', 'text-gray-900');
+            trigger.classList.remove('bg-gradient-to-r', 'from-green-50', 'to-emerald-50', 'text-green-700', 'shadow-sm');
             trigger.classList.add('text-gray-700');
         }
     } else {
         if (isActive) {
-            trigger.classList.add('bg-gray-100', 'text-gray-900', 'border-gray-300');
+            trigger.classList.add('bg-gradient-to-r', 'from-gray-100', 'to-gray-50', 'text-gray-900', 'border-gray-300', 'shadow-md');
             trigger.classList.remove('text-gray-600', 'border-gray-200', 'bg-white');
         } else {
-            trigger.classList.remove('bg-gray-100', 'text-gray-900', 'border-gray-300');
+            trigger.classList.remove('bg-gradient-to-r', 'from-gray-100', 'to-gray-50', 'text-gray-900', 'border-gray-300', 'shadow-md');
             trigger.classList.add('text-gray-600', 'border-gray-200', 'bg-white');
         }
     }

@@ -2,6 +2,21 @@
 let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 const formatCurrency = (value) => value.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' });
 
+// Placeholder image function (shared with admin)
+function getProductImagePlaceholder(index = 0) {
+    const placeholders = [
+        'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1570968914860-a693f2704e1c?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=800&q=80'
+    ];
+    return placeholders[index % placeholders.length];
+}
+
 // Add to cart
 document.addEventListener('DOMContentLoaded', () => {
     // Handle add to cart buttons
@@ -35,6 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function addToCart(id, name, price, size = null, image = null) {
+    // Refresh cart from localStorage first
+    cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    
     const sizeSuffix = size ? ` (${size})` : '';
     const fullName = name + sizeSuffix;
     const itemKey = `${id}-${size || 'default'}`;
@@ -44,11 +62,15 @@ function addToCart(id, name, price, size = null, image = null) {
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
-        cart.push({ id, key: itemKey, name: fullName, price: parseFloat(price), quantity: 1, size, image });
+        // If no image provided, use placeholder based on cart length
+        const finalImage = image || getProductImagePlaceholder(cart.length);
+        cart.push({ id, key: itemKey, name: fullName, price: parseFloat(price), quantity: 1, size, image: finalImage });
     }
     
     localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartCount();
+    
+    // Update cart count immediately
+    setTimeout(() => updateCartCount(), 0);
 }
 
 function loadCart() {
@@ -65,10 +87,16 @@ function loadCart() {
     if (emptyCartEl) emptyCartEl.classList.add('hidden');
     
     if (cartItemsEl) {
-        cartItemsEl.innerHTML = cart.map(item => `
+        cartItemsEl.innerHTML = cart.map((item, index) => {
+            // Get placeholder image - always use it as fallback
+            const placeholderImage = getProductImagePlaceholder(index);
+            // Use item image if available, otherwise use placeholder
+            const imageUrl = item.image && item.image.trim() !== '' ? item.image : placeholderImage;
+            
+            return `
             <div class="cart-item bg-white rounded-xl shadow-md p-6 flex flex-col sm:flex-row gap-4 animate-fade-in">
                 <div class="w-full sm:w-32 h-32 rounded-xl flex-shrink-0 overflow-hidden bg-gray-200">
-                    ${item.image ? `<img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">` : '<div class="w-full h-full bg-gradient-to-br from-green-200 via-emerald-200 to-amber-200"></div>'}
+                    <img src="${imageUrl}" alt="${item.name}" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='${placeholderImage}'; this.onerror=null;">
                 </div>
                 <div class="flex-1">
                     <h3 class="text-xl font-bold text-gray-900 mb-2">${item.name}</h3>
@@ -86,7 +114,8 @@ function loadCart() {
                     </div>
                 </div>
             </div>
-        `).join('');
+        `;
+        }).join('');
     }
     
     updateSummary();
@@ -128,11 +157,22 @@ function updateSummary() {
 }
 
 function updateCartCount() {
-    const cartCountEl = document.getElementById('cart-count');
-    if (cartCountEl) {
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        cartCountEl.textContent = totalItems;
-        cartCountEl.style.display = totalItems > 0 ? 'inline-block' : 'none';
-    }
+    // Refresh cart from localStorage to ensure we have latest data
+    cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    
+    // Update all cart count elements across all pages
+    const cartCountEls = document.querySelectorAll('#cart-count');
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    
+    cartCountEls.forEach(el => {
+        if (el) {
+            el.textContent = totalItems;
+            el.style.display = totalItems > 0 ? 'inline-block' : 'none';
+        }
+    });
 }
+
+// Make function globally available
+window.updateCartCount = updateCartCount;
+window.addToCart = addToCart;
 
