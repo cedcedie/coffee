@@ -1,4 +1,5 @@
 {
+  "outputDirectory": "html",
   "rewrites": [
     { "source": "/", "destination": "/html/index.html" },
     { "source": "/menu", "destination": "/html/menu.html" },
