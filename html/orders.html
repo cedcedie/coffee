@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - Forest Brew Café</title>
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 antialiased page-transition">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-gray-50/95 backdrop-blur-xl border-b border-gray-200 shadow-sm z-50 transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <img src="../Untitled.jpg" alt="Forest Brew Café" class="h-12 w-12 object-contain transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                    <span class="text-2xl font-bold gradient-text">Forest Brew Café</span>
+                </a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html#menu-section" class="text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium">Menu</a>
+                    <a href="index.html#about-section" class="text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium">About</a>
+                    <a href="index.html#contact-section" class="text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium">Contact</a>
+                    <a href="index.html#location" class="text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium">Location</a>
+                    <a href="cart.html" class="text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium relative">
+                        Cart <span id="cart-count" class="ml-1 bg-green-600 text-white text-xs px-2 py-1 rounded-full">0</span>
+                    </a>
+                    <a href="menu.html" class="bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 text-white px-5 py-2 rounded-xl hover:from-green-700 hover:via-emerald-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-2xl">
+                        Order Now
+                    </a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 bg-gray-50/95 backdrop-blur-lg">
+            <div class="px-4 py-4 space-y-4">
+                <a href="index.html#menu-section" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Menu</a>
+                <a href="index.html#about-section" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">About</a>
+                <a href="index.html#contact-section" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Contact</a>
+                <a href="index.html#location" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Location</a>
+                <a href="cart.html" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Cart</a>
+                <a href="menu.html" class="block bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-2.5 rounded-lg text-center font-semibold">Order Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-12 bg-gradient-to-br from-green-600 via-emerald-600 to-green-700 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_50%)]"></div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-2xl animate-fade-in-up">My Orders</h1>
+            <p class="text-xl text-green-100 animate-fade-in-up stagger-1">Track your coffee orders</p>
+        </div>
+    </section>
+
+    <!-- Orders Section -->
+    <section class="py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="orders-container" class="space-y-6">
+                <!-- Orders will be loaded here -->
+                <div class="text-center py-20">
+                    <svg class="w-24 h-24 mx-auto mb-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                    </svg>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">No orders yet</h3>
+                    <p class="text-gray-600 mb-6">Start ordering to see your orders here</p>
+                    <a href="menu.html" class="inline-block bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 text-white px-8 py-3 rounded-xl font-semibold hover:from-green-700 hover:via-emerald-700 hover:to-green-800 transition-all duration-200 shadow-lg hover:shadow-xl">
+                        Browse Menu
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Details Modal -->
+    <div id="order-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
+                <h3 class="text-2xl font-bold text-gray-900">Order Details</h3>
+                <button onclick="closeOrderModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="order-modal-content" class="p-6">
+                <!-- Order details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <img src="../Untitled.jpg" alt="Forest Brew Café" class="h-12 w-12 object-contain">
+                        <h3 class="text-2xl font-bold text-green-400">Forest Brew Café</h3>
+                    </div>
+                    <p class="text-gray-400 leading-relaxed">Premium coffee sourced from nature's finest forests, delivered fresh to your door.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-green-400">Explore Forest Brew</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="index.html#menu-section" class="hover:text-green-400 transition-colors">Menu</a></li>
+                        <li><a href="index.html#about-section" class="hover:text-green-400 transition-colors">About</a></li>
+                        <li><a href="index.html#contact-section" class="hover:text-green-400 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-green-400">Resources</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="cart.html" class="hover:text-green-400 transition-colors">Cart</a></li>
+                        <li><a href="menu.html" class="hover:text-green-400 transition-colors">Order Now</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-green-400">Contact</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li>Email: hello@forestbrewcafe.com</li>
+                        <li>Phone: +63 912 345 6789</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Forest Brew Café. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/orders.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/animations.js"></script>
+</body>
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - Forest Brew Café</title>
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 antialiased page-transition">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-gray-50/95 backdrop-blur-xl border-b border-gray-200 shadow-sm z-50 transition-all duration-500 layer-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <img src="../Untitled.jpg" alt="Forest Brew Café" class="h-12 w-12 object-contain transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                    <span class="text-2xl font-bold gradient-text">
+                        Forest Brew Café
+                    </span>
+                </a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html#menu-section" class="text-gray-700 hover:text-green-700 transition-colors font-medium">Menu</a>
+                    <a href="index.html#about-section" class="text-gray-700 hover:text-green-700 transition-colors font-medium">About</a>
+                    <a href="index.html#contact-section" class="text-gray-700 hover:text-green-700 transition-colors font-medium">Contact</a>
+                    <a href="index.html#location" class="text-gray-700 hover:text-green-700 transition-colors font-medium">Location</a>
+                    <a href="cart.html" class="text-gray-700 hover:text-green-700 transition-colors font-medium relative">
+                        Cart 
+                        <span id="cart-count" class="ml-1 bg-green-600 text-white text-xs px-2 py-1 rounded-full">0</span>
+                    </a>
+                    <a href="menu.html" class="bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 text-white px-6 py-2.5 rounded-xl hover:from-green-700 hover:via-emerald-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-green-500/50 transform hover:-translate-y-1 hover:scale-105 font-semibold">
+                        Order Now
+                    </a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 bg-gray-50/95 backdrop-blur-lg">
+            <div class="px-4 py-4 space-y-4">
+                <a href="index.html#menu-section" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Menu</a>
+                <a href="index.html#about-section" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">About</a>
+                <a href="index.html#contact-section" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Contact</a>
+                <a href="index.html#location" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Location</a>
+                <a href="cart.html" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Cart</a>
+                <a href="menu.html" class="block bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-2.5 rounded-lg text-center font-semibold">Order Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="pt-28 pb-16 bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_50%)]"></div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-fade-in">
+            <h1 class="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-2xl">Our Forest Collection</h1>
+            <p class="text-xl text-green-100 scroll-fade-in stagger-1">Discover our premium selection of nature-sourced coffees</p>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 scroll-fade-in">
+        <div class="flex flex-wrap gap-4 justify-center">
+            <button class="filter-btn active px-6 py-3 bg-green-600 text-white rounded-xl shadow-xl hover:shadow-2xl transform transition-all duration-300 font-semibold border-2 border-green-600 scale-105" data-filter="all">
+                All Blends
+            </button>
+            <button class="filter-btn px-6 py-3 bg-gray-100 rounded-xl shadow-xl hover:shadow-2xl hover:scale-105 transform transition-all duration-300 font-semibold text-gray-700 hover:text-green-700 border-2 border-gray-200" data-filter="espresso">
+                Espresso
+            </button>
+            <button class="filter-btn px-6 py-3 bg-gray-100 rounded-xl shadow-xl hover:shadow-2xl hover:scale-105 transform transition-all duration-300 font-semibold text-gray-700 hover:text-green-700 border-2 border-gray-200" data-filter="filter">
+                Filter
+            </button>
+            <button class="filter-btn px-6 py-3 bg-gray-100 rounded-xl shadow-xl hover:shadow-2xl hover:scale-105 transform transition-all duration-300 font-semibold text-gray-700 hover:text-green-700 border-2 border-gray-200" data-filter="decaf">
+                Decaf
+            </button>
+            <button class="filter-btn px-6 py-3 bg-gray-100 rounded-xl shadow-xl hover:shadow-2xl hover:scale-105 transform transition-all duration-300 font-semibold text-gray-700 hover:text-green-700 border-2 border-gray-200" data-filter="bread">
+                Bread & Pastries
+            </button>
+            <button class="filter-btn px-6 py-3 bg-gray-100 rounded-xl shadow-xl hover:shadow-2xl hover:scale-105 transform transition-all duration-300 font-semibold text-gray-700 hover:text-green-700 border-2 border-gray-200" data-filter="sides">
+                Sides
+            </button>
+        </div>
+    </div>
+
+    <!-- Menu Grid -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 stagger-children">
+            <!-- Product Cards with Enhanced Design -->
+            <div class="menu-item bg-gray-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 hover:scale-105 group border border-gray-200 scroll-scale-in hover-lift flex flex-col" data-category="espresso">
+                <div class="h-56 relative overflow-hidden bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=800&q=80" alt="Mountain Espresso" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent group-hover:from-black/50 transition-all"></div>
+                    <div class="absolute top-5 right-5 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 text-lg font-bold text-green-700 shadow-lg">
+                        ₱350
+                    </div>
+                    <div class="absolute bottom-5 left-5 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1.5 text-xs font-semibold text-green-700">
+                        🌲 Espresso
+                    </div>
+                </div>
+                <div class="p-6 card-body flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Mountain Espresso</h3>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">Rich and bold, perfect for espresso lovers</p>
+                    <div class="card-actions space-y-4 mt-auto">
+                        <div class="space-y-2">
+                            <label class="block text-xs font-semibold text-gray-700">Size</label>
+                            <div class="flex gap-2">
+                                <button class="size-btn flex-1 py-2 px-3 text-xs font-semibold rounded-lg bg-gray-100 text-gray-700 border-2 border-gray-200 hover:border-green-500" data-size="small" data-price="280">Small ₱280</button>
+                                <button class="size-btn active flex-1 py-2 px-3 text-xs font-semibold rounded-lg bg-green-600 text-white border-2 border-green-600" data-size="medium" data-price="350">Medium ₱350</button>
+                                <button class="size-btn flex-1 py-2 px-3 text-xs font-semibold rounded-lg bg-gray-100 text-gray-700 border-2 border-gray-200 hover:border-green-500" data-size="large" data-price="420">Large ₱420</button>
+                            </div>
+                        </div>
+                        <button class="add-to-cart-btn w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-2.5 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 text-sm shadow-xl hover:shadow-2xl hover:shadow-green-500/50" data-id="1" data-name="Mountain Espresso" data-price="350" data-size="medium" data-image="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=800&q=80">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- More products with same enhanced design -->
+            <div class="menu-item bg-gray-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 group border border-gray-200 flex flex-col" data-category="filter">
+                <div class="h-56 relative overflow-hidden bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=800&q=80" alt="Colombian Forest" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent group-hover:from-black/50 transition-all"></div>
+                    <div class="absolute top-5 right-5 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 text-lg font-bold text-green-700 shadow-lg">
+                        ₱380
+                    </div>
+                    <div class="absolute bottom-5 left-5 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1.5 text-xs font-semibold text-green-700">
+                        🌳 Filter
+                    </div>
+                </div>
+                <div class="p-6 card-body flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Colombian Forest</h3>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">Smooth and balanced with notes of caramel</p>
+                    <div class="card-actions space-y-4 mt-auto">
+                        <div class="space-y-2">
+                            <label class="block text-xs font-semibold text-gray-700">Size</label>
+                            <div class="flex gap-2">
+                                <button class="size-btn flex-1 py-2 px-3 text-xs font-semibold rounded-lg bg-gray-100 text-gray-700 border-2 border-gray-200 hover:border-green-500" data-size="small" data-price="320">Small ₱320</button>
+                                <button class="size-btn active flex-1 py-2 px-3 text-xs font-semibold rounded-lg bg-green-600 text-white border-2 border-green-600" data-size="medium" data-price="380">Medium ₱380</button>
+                                <button class="size-btn flex-1 py-2 px-3 text-xs font-semibold rounded-lg bg-gray-100 text-gray-700 border-2 border-gray-200 hover:border-green-500" data-size="large" data-price="450">Large ₱450</button>
+                            </div>
+                        </div>
+                        <button class="add-to-cart-btn w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-2.5 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-200 transform hover:scale-105 text-sm shadow-lg" data-id="2" data-name="Colombian Forest" data-price="380" data-size="medium" data-image="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=800&q=80">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-item bg-gray-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 group border border-gray-200 flex flex-col" data-category="filter">
+                <div class="h-56 relative overflow-hidden bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80" alt="Ethiopian Forest" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent group-hover:from-black/50 transition-all"></div>
+                    <div class="absolute top-5 right-5 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 text-lg font-bold text-green-700 shadow-lg">
+                        ₱420
+                    </div>
+                    <div class="absolute bottom-5 left-5 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1.5 text-xs font-semibold text-green-700">
+                        🌿 Organic
+                    </div>
+                </div>
+                <div class="p-6 card-body flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Ethiopian Forest</h3>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">Fruity and floral, light roast perfection</p>
+                    <div class="card-actions space-y-4 mt-auto">
+                        <div class="space-y-2">
+                            <label class="block text-xs font-semibold text-gray-700">Size</label>
+                            <div class="flex gap-2">
+                                <button class="size-btn flex-1 py-2 px-3 text-xs font-semibold rounded-lg bg-gray-100 text-gray-700 border-2 border-gray-200 hover:border-green-500" data-size="small" data-price="360">Small ₱360</button>
+                                <button class="size-btn active flex-1 py-2 px-3 text-xs font-semibold rounded-lg bg-green-600 text-white border-2 border-green-600" data-size="medium" data-price="420">Medium ₱420</button>
+                                <button class="size-btn flex-1 py-2 px-3 text-xs font-semibold rounded-lg bg-gray-100 text-gray-700 border-2 border-gray-200 hover:border-green-500" data-size="large" data-price="480">Large ₱480</button>
+                            </div>
+                        </div>
+                        <button class="add-to-cart-btn w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-2.5 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-200 transform hover:scale-105 text-sm shadow-lg" data-id="3" data-name="Ethiopian Forest" data-price="420" data-size="medium" data-image="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-item bg-gray-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 group border border-gray-200 flex flex-col" data-category="espresso">
+                <div class="h-56 relative overflow-hidden bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=800&q=80" alt="Italian Forest Roast" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent group-hover:from-black/50 transition-all"></div>
+                    <div class="absolute top-5 right-5 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 text-lg font-bold text-green-700 shadow-lg">
+                        ₱400
+                    </div>
+                    <div class="absolute bottom-5 left-5 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1.5 text-xs font-semibold text-green-700">
+                        🌲 Espresso
+                    </div>
+                </div>
+                <div class="p-6 card-body flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Italian Forest Roast</h3>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">Dark and intense, classic Italian style</p>
+                    <div class="card-actions space-y-4 mt-auto">
+                        <div class="space-y-2">
+                            <label class="block text-xs font-semibold text-gray-700">Size</label>
+                            <div class="flex gap-2">
+                                <button class="size-btn flex-1 py-2 px-3 text-xs font-semibold rounded-lg bg-gray-100 text-gray-700 border-2 border-gray-200 hover:border-green-500" data-size="small" data-price="340">Small ₱340</button>
+                                <button class="size-btn active flex-1 py-2 px-3 text-xs font-semibold rounded-lg bg-green-600 text-white border-2 border-green-600" data-size="medium" data-price="400">Medium ₱400</button>
+                                <button class="size-btn flex-1 py-2 px-3 text-xs font-semibold rounded-lg bg-gray-100 text-gray-700 border-2 border-gray-200 hover:border-green-500" data-size="large" data-price="460">Large ₱460</button>
+                            </div>
+                        </div>
+                        <button class="add-to-cart-btn w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-2.5 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-200 transform hover:scale-105 text-sm shadow-lg" data-id="4" data-name="Italian Forest Roast" data-price="400" data-size="medium" data-image="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=800&q=80">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-item bg-gray-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 group border border-gray-200 flex flex-col" data-category="decaf">
+                <div class="h-56 relative overflow-hidden bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=800&q=80" alt="Decaf Forest Blend" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent group-hover:from-black/50 transition-all"></div>
+                    <div class="absolute top-5 right-5 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 text-lg font-bold text-green-700 shadow-lg">
+                        ₱380
+                    </div>
+                    <div class="absolute bottom-5 left-5 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1.5 text-xs font-semibold text-green-700">
+                        🌿 Decaf
+                    </div>
+                </div>
+                <div class="p-6 card-body flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Decaf Forest Blend</h3>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">Full flavor without the caffeine</p>
+                    <div class="card-actions space-y-4 mt-auto">
+                        <div class="space-y-2">
+                            <label class="block text-xs font-semibold text-gray-700">Size</label>
+                            <div class="flex gap-2">
+                                <button class="size-btn flex-1 py-2 px-3 text-xs font-semibold rounded-lg bg-gray-100 text-gray-700 border-2 border-gray-200 hover:border-green-500" data-size="small" data-price="320">Small ₱320</button>
+                                <button class="size-btn active flex-1 py-2 px-3 text-xs font-semibold rounded-lg bg-green-600 text-white border-2 border-green-600" data-size="medium" data-price="380">Medium ₱380</button>
+                                <button class="size-btn flex-1 py-2 px-3 text-xs font-semibold rounded-lg bg-gray-100 text-gray-700 border-2 border-gray-200 hover:border-green-500" data-size="large" data-price="440">Large ₱440</button>
+                            </div>
+                        </div>
+                        <button class="add-to-cart-btn w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-2.5 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-200 transform hover:scale-105 text-sm shadow-lg" data-id="5" data-name="Decaf Forest Blend" data-price="380" data-size="medium" data-image="https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=800&q=80">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-item bg-gray-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 group border border-gray-200 flex flex-col" data-category="filter">
+                <div class="h-56 relative overflow-hidden bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=800&q=80" alt="Kenyan Forest AA" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent group-hover:from-black/50 transition-all"></div>
+                    <div class="absolute top-5 right-5 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 text-lg font-bold text-green-700 shadow-lg">
+                        ₱450
+                    </div>
+                    <div class="absolute bottom-5 left-5 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1.5 text-xs font-semibold text-green-700">
+                        🌳 Premium
+                    </div>
+                </div>
+                <div class="p-6 card-body flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Kenyan Forest AA</h3>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">Bright and acidic with wine-like notes</p>
+                    <div class="card-actions space-y-4 mt-auto">
+                        <div class="space-y-2">
+                            <label class="block text-xs font-semibold text-gray-700">Size</label>
+                            <div class="flex gap-2">
+                                <button class="size-btn flex-1 py-2 px-3 text-xs font-semibold rounded-lg bg-gray-100 text-gray-700 border-2 border-gray-200 hover:border-green-500" data-size="small" data-price="380">Small ₱380</button>
+                                <button class="size-btn active flex-1 py-2 px-3 text-xs font-semibold rounded-lg bg-green-600 text-white border-2 border-green-600" data-size="medium" data-price="450">Medium ₱450</button>
+                                <button class="size-btn flex-1 py-2 px-3 text-xs font-semibold rounded-lg bg-gray-100 text-gray-700 border-2 border-gray-200 hover:border-green-500" data-size="large" data-price="500">Large ₱500</button>
+                            </div>
+                        </div>
+                        <button class="add-to-cart-btn w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-2.5 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-200 transform hover:scale-105 text-sm shadow-lg" data-id="6" data-name="Kenyan Forest AA" data-price="450" data-size="medium" data-image="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=800&q=80">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bread Items -->
+            <div class="menu-item bg-gray-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 group border border-gray-200 flex flex-col" data-category="bread">
+                <div class="h-56 relative overflow-hidden bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80" alt="Artisan Sourdough" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent group-hover:from-black/50 transition-all"></div>
+                    <div class="absolute top-5 right-5 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 text-lg font-bold text-amber-700 shadow-lg">
+                        ₱280
+                    </div>
+                    <div class="absolute bottom-5 left-5 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1.5 text-xs font-semibold text-amber-700">
+                        🥖 Fresh Bread
+                    </div>
+                </div>
+                <div class="p-6 card-body flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Artisan Sourdough</h3>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">Freshly baked daily, perfect with coffee</p>
+                    <div class="card-actions mt-auto pt-4">
+                        <button class="add-to-cart-btn w-full bg-gradient-to-r from-amber-600 to-orange-600 text-white py-2.5 rounded-xl font-semibold hover:from-amber-700 hover:to-orange-700 transition-all duration-200 transform hover:scale-105 text-sm shadow-lg" data-id="7" data-name="Artisan Sourdough" data-price="280" data-image="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-item bg-gray-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 group border border-gray-200 flex flex-col" data-category="bread">
+                <div class="h-56 relative overflow-hidden bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80" alt="Butter Croissant" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent group-hover:from-black/50 transition-all"></div>
+                    <div class="absolute top-5 right-5 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 text-lg font-bold text-amber-700 shadow-lg">
+                        ₱150
+                    </div>
+                    <div class="absolute bottom-5 left-5 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1.5 text-xs font-semibold text-amber-700">
+                        🥐 Croissant
+                    </div>
+                </div>
+                <div class="p-6 card-body flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Butter Croissant</h3>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">Flaky, buttery perfection</p>
+                    <div class="card-actions mt-auto pt-4">
+                        <button class="add-to-cart-btn w-full bg-gradient-to-r from-amber-600 to-orange-600 text-white py-2.5 rounded-xl font-semibold hover:from-amber-700 hover:to-orange-700 transition-all duration-200 transform hover:scale-105 text-sm shadow-lg" data-id="8" data-name="Butter Croissant" data-price="150" data-image="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-item bg-gray-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 group border border-gray-200 flex flex-col" data-category="bread">
+                <div class="h-56 relative overflow-hidden bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1607958996333-41aef7caefaa?auto=format&fit=crop&w=800&q=80" alt="Blueberry Muffin" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent group-hover:from-black/50 transition-all"></div>
+                    <div class="absolute top-5 right-5 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 text-lg font-bold text-amber-700 shadow-lg">
+                        ₱180
+                    </div>
+                    <div class="absolute bottom-5 left-5 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1.5 text-xs font-semibold text-amber-700">
+                        🍞 Muffin
+                    </div>
+                </div>
+                <div class="p-6 card-body flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Blueberry Muffin</h3>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">Moist and delicious, packed with blueberries</p>
+                    <div class="card-actions mt-auto pt-4">
+                        <button class="add-to-cart-btn w-full bg-gradient-to-r from-amber-600 to-orange-600 text-white py-2.5 rounded-xl font-semibold hover:from-amber-700 hover:to-orange-700 transition-all duration-200 transform hover:scale-105 text-sm shadow-lg" data-id="9" data-name="Blueberry Muffin" data-price="180" data-image="https://images.unsplash.com/photo-1607958996333-41aef7caefaa?auto=format&fit=crop&w=800&q=80">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sides Items -->
+            <div class="menu-item bg-gray-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 group border border-gray-200 flex flex-col" data-category="sides">
+                <div class="h-56 relative overflow-hidden bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80" alt="Fresh Garden Salad" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent group-hover:from-black/50 transition-all"></div>
+                    <div class="absolute top-5 right-5 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 text-lg font-bold text-green-700 shadow-lg">
+                        ₱220
+                    </div>
+                    <div class="absolute bottom-5 left-5 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1.5 text-xs font-semibold text-green-700">
+                        🥗 Side Salad
+                    </div>
+                </div>
+                <div class="p-6 card-body flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Fresh Garden Salad</h3>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">Mixed greens with seasonal vegetables</p>
+                    <div class="card-actions mt-auto pt-4">
+                        <button class="add-to-cart-btn w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-2.5 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-200 transform hover:scale-105 text-sm shadow-lg" data-id="10" data-name="Fresh Garden Salad" data-price="220" data-image="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-item bg-gray-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 group border border-gray-200 flex flex-col" data-category="sides">
+                <div class="h-56 relative overflow-hidden bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?auto=format&fit=crop&w=800&q=80" alt="Avocado Toast" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent group-hover:from-black/50 transition-all"></div>
+                    <div class="absolute top-5 right-5 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 text-lg font-bold text-green-700 shadow-lg">
+                        ₱280
+                    </div>
+                    <div class="absolute bottom-5 left-5 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1.5 text-xs font-semibold text-green-700">
+                        🥑 Avocado Toast
+                    </div>
+                </div>
+                <div class="p-6 card-body flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Avocado Toast</h3>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">Smashed avocado on artisan bread</p>
+                    <div class="card-actions mt-auto pt-4">
+                        <button class="add-to-cart-btn w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-2.5 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-200 transform hover:scale-105 text-sm shadow-lg" data-id="11" data-name="Avocado Toast" data-price="280" data-image="https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?auto=format&fit=crop&w=800&q=80">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-item bg-gray-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 group border border-gray-200 flex flex-col" data-category="sides">
+                <div class="h-56 relative overflow-hidden bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?auto=format&fit=crop&w=800&q=80" alt="Forest Honey" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent group-hover:from-black/50 transition-all"></div>
+                    <div class="absolute top-5 right-5 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 text-lg font-bold text-green-700 shadow-lg">
+                        ₱170
+                    </div>
+                    <div class="absolute bottom-5 left-5 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1.5 text-xs font-semibold text-green-700">
+                        🍯 Honey
+                    </div>
+                </div>
+                <div class="p-6 card-body flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Forest Honey</h3>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">Pure wild forest honey, perfect sweetener</p>
+                    <div class="card-actions mt-auto pt-4">
+                        <button class="add-to-cart-btn w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-2.5 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-200 transform hover:scale-105 text-sm shadow-lg" data-id="12" data-name="Forest Honey" data-price="170" data-image="https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?auto=format&fit=crop&w=800&q=80">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/nav.js"></script>
+    <script src="../js/menu.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/animations.js"></script>
+</body>
+</html>

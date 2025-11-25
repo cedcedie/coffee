@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Forest Brew Café</title>
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 antialiased page-transition">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-200 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="../Untitled.jpg" alt="Forest Brew Café" class="h-12 w-12 object-contain">
+                    <span class="text-2xl font-bold bg-gradient-to-r from-green-700 via-green-600 to-emerald-700 bg-clip-text text-transparent">
+                        Forest Brew Café
+                    </span>
+                </a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html#menu-section" class="text-gray-700 hover:text-green-700 transition-colors font-medium">Menu</a>
+                    <a href="index.html#about-section" class="text-gray-700 hover:text-green-700 transition-colors font-medium">About</a>
+                    <a href="index.html#contact-section" class="text-gray-700 hover:text-green-700 transition-colors font-medium">Contact</a>
+                    <a href="index.html#location" class="text-gray-700 hover:text-green-700 transition-colors font-medium">Location</a>
+                    <a href="cart.html" class="text-gray-700 hover:text-green-700 transition-colors font-medium relative">
+                        Cart <span id="cart-count" class="ml-1 bg-green-600 text-white text-xs px-2 py-1 rounded-full">0</span>
+                    </a>
+                    <a href="menu.html" class="bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 text-white px-5 py-2 rounded-xl hover:from-green-700 hover:via-emerald-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-2xl">
+                        Order Now
+                    </a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 bg-white/95 backdrop-blur-lg">
+            <div class="px-4 py-4 space-y-4">
+                <a href="index.html#menu-section" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Menu</a>
+                <a href="index.html#about-section" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">About</a>
+                <a href="index.html#contact-section" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Contact</a>
+                <a href="index.html#location" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Location</a>
+                <a href="cart.html" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Cart</a>
+                <a href="menu.html" class="block bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-2.5 rounded-lg text-center font-semibold">Order Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Checkout Content -->
+    <div class="pt-24 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-4xl font-bold text-gray-900 mb-8">Checkout</h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Checkout Form -->
+            <div class="lg:col-span-2">
+                <form id="checkout-form" class="space-y-6">
+                    <!-- Delivery Information -->
+                    <div class="bg-white rounded-xl shadow-md p-6">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Delivery Information</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">First Name</label>
+                                <input type="text" name="firstName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" placeholder="John">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Last Name</label>
+                                <input type="text" name="lastName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" placeholder="Doe">
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+                                <input type="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" placeholder="john@example.com">
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Phone</label>
+                            <input type="tel" name="phone" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" placeholder="+63 912 345 6789">
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Address</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="address-input" name="address" required class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" placeholder="123 Main Street">
+                                <button type="button" id="get-location-btn" class="px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all font-semibold shadow-lg hover:shadow-xl">
+                                    📍 Use My Location
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2">Click to automatically detect your location</p>
+                        </div>
+                        
+                        <div class="mt-4 hidden" id="location-display">
+                            <div class="bg-white border border-gray-200 rounded-xl p-4 space-y-3">
+                                <p class="text-sm font-semibold text-gray-900">📍 Location detected</p>
+                                <p class="text-sm text-gray-600" id="location-text"></p>
+                                <div class="rounded-2xl overflow-hidden border border-gray-100 h-60">
+                                    <iframe id="location-inline-map" title="Delivery map preview" class="w-full h-full" style="border:0;" loading="lazy" allowfullscreen></iframe>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">City</label>
+                                <input type="text" name="city" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" placeholder="Balagtas">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">State</label>
+                                <input type="text" name="state" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" placeholder="Bulacan">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">ZIP Code</label>
+                                <input type="text" name="zip" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" placeholder="3015">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Information -->
+                    <div class="bg-white rounded-xl shadow-md p-6">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Payment Information</h2>
+
+                        <div class="space-y-4">
+                            <p class="text-sm font-semibold text-gray-700">Choose Method</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <button type="button" class="payment-option active w-full px-4 py-3 rounded-xl border-2 border-green-600 text-green-700 font-semibold bg-green-50" data-method="card">
+                                    💳 Card • Visa / MasterCard
+                                </button>
+                                <button type="button" class="payment-option w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-600 font-semibold bg-gray-50 hover:border-green-500 transition" data-method="gcash">
+                                    📱 GCash / e-Wallet
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="card-fields" class="space-y-4 mt-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Card Number</label>
+                                <input type="text" required maxlength="19" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" placeholder="1234 5678 9012 3456">
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Expiry Date</label>
+                                    <input type="text" required maxlength="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" placeholder="MM/YY">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">CVV</label>
+                                    <input type="text" required maxlength="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" placeholder="123">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Cardholder Name</label>
+                                <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" placeholder="John Doe">
+                            </div>
+                        </div>
+
+                        <div id="gcash-fields" class="space-y-4 mt-6 hidden">
+                            <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 text-blue-700">
+                                Send payment to <strong>Forest Brew Café</strong> via GCash.<br>
+                                Reference: the order ID we email after checkout.
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">GCash Number</label>
+                                <input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" placeholder="09XX XXX XXXX">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Account Name</label>
+                                <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" placeholder="e.g. Maria D. Santos">
+                            </div>
+                            <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 text-sm text-gray-600">
+                                After submitting, you'll receive a payment link and QR that supports GCash, Maya, GrabPay, and bank transfers.
+                            </div>
+                        </div>
+                    </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 text-white py-4 rounded-xl font-bold text-lg hover:from-green-700 hover:via-emerald-700 hover:to-green-800 transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
+                    Complete Order
+                </button>
+                </form>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-md p-6 sticky top-24">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Order Summary</h2>
+                    
+                    <div id="checkout-items" class="space-y-4 mb-6">
+                        <!-- Items will be loaded here -->
+                    </div>
+
+                    <div class="border-t border-gray-200 pt-4 space-y-2">
+                        <div class="flex justify-between text-gray-600">
+                            <span>Subtotal</span>
+                            <span id="checkout-subtotal">₱0.00</span>
+                        </div>
+                        <div class="flex justify-between text-gray-600">
+                            <span>Delivery</span>
+                            <span id="checkout-delivery">₱120.00</span>
+                        </div>
+                        <div class="flex justify-between text-lg font-bold text-gray-900 pt-2 border-t border-gray-200">
+                            <span>Total</span>
+                            <span id="checkout-total">₱0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="location-modal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full">
+            <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                <div>
+                    <p class="text-sm font-semibold text-green-600 uppercase tracking-wide">Current Pin</p>
+                    <h3 class="text-2xl font-bold text-gray-900">Is this your delivery spot?</h3>
+                </div>
+                <button id="close-location-modal" class="text-gray-400 hover:text-gray-600 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="p-6 space-y-4">
+                <p id="location-modal-text" class="text-gray-700 text-sm"></p>
+                <div class="rounded-2xl overflow-hidden border border-gray-200">
+                    <iframe id="location-modal-map" title="Detected location map" class="w-full h-64" style="border:0;" loading="lazy" allowfullscreen></iframe>
+                </div>
+                <button id="location-modal-confirm" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition">
+                    Looks good
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/nav.js"></script>
+    <script src="../js/checkout.js"></script>
+    <script src="../js/animations.js"></script>
+</body>
+</html>
+

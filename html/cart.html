@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Forest Brew Café</title>
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-green-50 via-emerald-50/30 to-amber-50 antialiased page-transition">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-lg border-b border-green-100 shadow-sm z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="../Untitled.jpg" alt="Forest Brew Café" class="h-12 w-12 object-contain">
+                    <span class="text-2xl font-bold bg-gradient-to-r from-green-700 via-green-600 to-emerald-700 bg-clip-text text-transparent">
+                        Forest Brew Café
+                    </span>
+                </a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html#menu-section" class="text-gray-700 hover:text-green-700 transition-colors font-medium">Menu</a>
+                    <a href="index.html#about-section" class="text-gray-700 hover:text-green-700 transition-colors font-medium">About</a>
+                    <a href="index.html#contact-section" class="text-gray-700 hover:text-green-700 transition-colors font-medium">Contact</a>
+                    <a href="index.html#location" class="text-gray-700 hover:text-green-700 transition-colors font-medium">Location</a>
+                    <a href="cart.html" class="text-green-700 font-semibold border-b-2 border-green-700 relative">
+                        Cart
+                        <span id="cart-count" class="ml-1 bg-green-600 text-white text-xs px-2 py-1 rounded-full">0</span>
+                    </a>
+                    <a href="menu.html" class="bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 text-white px-6 py-2.5 rounded-xl hover:from-green-700 hover:via-emerald-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-green-500/50 transform hover:-translate-y-1 hover:scale-105 font-semibold">
+                        Order Now
+                    </a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 bg-white/95 backdrop-blur-lg">
+            <div class="px-4 py-4 space-y-4">
+                <a href="index.html#menu-section" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Menu</a>
+                <a href="index.html#about-section" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">About</a>
+                <a href="index.html#contact-section" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Contact</a>
+                <a href="index.html#location" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Location</a>
+                <a href="cart.html" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Cart</a>
+                <a href="menu.html" class="block bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-2.5 rounded-lg text-center font-semibold">Order Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Content -->
+    <div class="pt-24 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-4xl font-bold text-gray-900 mb-8">Shopping Cart</h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Cart Items -->
+            <div class="lg:col-span-2">
+                <div id="cart-items" class="space-y-4">
+                    <!-- Cart Item Placeholder (will be replaced by JavaScript) -->
+                    <div class="cart-item bg-white rounded-xl shadow-md p-6 flex flex-col sm:flex-row gap-4 animate-fade-in">
+                        <div class="w-full sm:w-32 h-32 bg-gradient-to-br from-green-200 via-emerald-200 to-amber-200 rounded-xl flex-shrink-0"></div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Espresso Blend</h3>
+                            <p class="text-gray-600 text-sm mb-4">250g</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <button class="quantity-btn decrease w-8 h-8 rounded-lg border border-gray-300 hover:bg-gray-100 transition-colors">-</button>
+                                    <span class="quantity w-12 text-center font-semibold">1</span>
+                                    <button class="quantity-btn increase w-8 h-8 rounded-lg border border-gray-300 hover:bg-gray-100 transition-colors">+</button>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xl font-bold text-gray-900">₱730</div>
+                                    <button class="remove-item text-sm text-red-600 hover:text-red-700 mt-1">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty Cart Message -->
+                <div id="empty-cart" class="hidden text-center py-12">
+                    <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                    </svg>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h3>
+                    <p class="text-gray-600 mb-6">Add some delicious coffee to get started!</p>
+                    <a href="menu.html" class="inline-block bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-3 rounded-xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl">
+                        Browse Menu
+                    </a>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-md p-6 sticky top-24">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Order Summary</h2>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="flex justify-between text-gray-600">
+                            <span>Subtotal</span>
+                            <span id="subtotal">₱0.00</span>
+                        </div>
+                        <div class="flex justify-between text-gray-600">
+                            <span>Delivery</span>
+                            <span id="delivery">₱120.00</span>
+                        </div>
+                        <div class="border-t border-gray-200 pt-4 flex justify-between text-lg font-bold text-gray-900">
+                            <span>Total</span>
+                            <span id="total">₱0.00</span>
+                        </div>
+                    </div>
+
+                    <a href="checkout.html" class="block w-full bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 text-white text-center py-4 rounded-xl font-bold hover:from-green-700 hover:via-emerald-700 hover:to-green-800 transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
+                        Proceed to Checkout
+                    </a>
+
+                    <a href="menu.html" class="block w-full text-center mt-4 text-gray-600 hover:text-amber-600 transition-colors">
+                        Continue Shopping
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/nav.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/animations.js"></script>
+</body>
+</html>
+

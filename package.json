@@ -1,0 +1,21 @@
+{
+  "name": "coffee",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-css": "npx tailwindcss -i ./css/input.css -o ./css/style.css --config ./config/tailwind.config.js --minify",
+    "watch-css": "npx tailwindcss -i ./css/input.css -o ./css/style.css --config ./config/tailwind.config.js --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.84.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.18"
+  }
+}

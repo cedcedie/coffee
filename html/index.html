@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forest Brew Café - Nature's Finest Coffee</title>
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 antialiased page-transition">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-gray-50/95 backdrop-blur-xl border-b border-gray-200 shadow-sm z-50 transition-all duration-500 layer-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <img src="../Untitled.jpg" alt="Forest Brew Café" class="h-12 w-12 object-contain transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                    <span class="text-2xl font-bold gradient-text">
+                        Forest Brew Café
+                    </span>
+                </a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html#menu-section" class="text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium">Menu</a>
+                    <a href="index.html#about-section" class="text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium">About</a>
+                    <a href="index.html#contact-section" class="text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium">Contact</a>
+                    <a href="index.html#location" class="text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium">Location</a>
+                    <a href="cart.html" class="text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium relative">
+                        Cart 
+                        <span id="cart-count" class="ml-1 bg-green-600 text-white text-xs px-2 py-1 rounded-full">0</span>
+                    </a>
+                    <a href="menu.html" class="bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 text-white px-6 py-2.5 rounded-xl hover:from-green-700 hover:via-emerald-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-green-500/50 transform hover:-translate-y-1 hover:scale-105 font-semibold relative overflow-hidden group">
+                        <span class="relative z-10">Order Now</span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-green-700 to-emerald-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 bg-gray-50/95 backdrop-blur-lg">
+            <div class="px-4 py-4 space-y-4">
+                <a href="index.html#menu-section" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Menu</a>
+                <a href="index.html#about-section" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">About</a>
+                <a href="index.html#contact-section" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Contact</a>
+                <a href="index.html#location" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Location</a>
+                <a href="cart.html" class="block text-gray-700 hover:text-green-700 transition-colors font-medium">Cart</a>
+                <a href="menu.html" class="block bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-2.5 rounded-lg text-center font-semibold">Order Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        <!-- Rich Forest Background with Enhanced Layering -->
+        <div class="absolute inset-0 bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50 layer-1">
+            <!-- Animated forest pattern overlay -->
+            <div class="absolute inset-0 opacity-20">
+                <div class="absolute top-0 left-0 w-full h-full" style="background-image: radial-gradient(circle at 20% 50%, rgba(34, 197, 94, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%), radial-gradient(circle at 40% 20%, rgba(101, 163, 13, 0.1) 0%, transparent 50%);"></div>
+            </div>
+            
+            <!-- Subtle floating elements -->
+            <div class="absolute inset-0 overflow-hidden">
+                <div class="absolute top-20 left-10 w-32 h-32 bg-green-500/5 rounded-full blur-3xl animate-pulse"></div>
+                <div class="absolute top-40 right-20 w-40 h-40 bg-emerald-500/5 rounded-full blur-3xl animate-pulse delay-300"></div>
+                <div class="absolute bottom-20 left-1/4 w-36 h-36 bg-gray-300/10 rounded-full blur-3xl animate-pulse delay-700"></div>
+                <div class="absolute bottom-40 right-1/3 w-28 h-28 bg-green-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+            </div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="text-center">
+                <!-- Main Heading with Rich Typography -->
+                <h1 class="text-6xl md:text-8xl font-bold mb-6 animate-fade-in-up leading-tight">
+                    <span class="gradient-text drop-shadow-2xl">
+                        Nature's Finest
+                    </span>
+                    <br>
+                    <span class="text-gray-900 drop-shadow-lg">Coffee Experience</span>
+                </h1>
+                
+                <!-- Subheading -->
+                <p class="text-xl md:text-2xl text-gray-700 mb-10 max-w-3xl mx-auto leading-relaxed animate-fade-in-up stagger-1 font-medium">
+                    Handcrafted coffee sourced from the world's finest forests. 
+                    <span class="text-green-700 font-semibold">Experience the harmony of nature in every cup.</span>
+                </p>
+
+                <!-- CTA Buttons with Enhanced Design -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up stagger-2 mb-16">
+                    <a href="menu.html" class="group bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 text-white px-10 py-4 rounded-2xl text-lg font-bold shadow-2xl hover:shadow-green-500/50 transform hover:-translate-y-2 transition-all duration-300 hover:from-green-700 hover:via-emerald-700 hover:to-green-800 relative overflow-hidden">
+                        <span class="relative z-10 flex items-center gap-2">
+                            Explore Our Menu
+                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
+                        </span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-green-700 to-emerald-800 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </a>
+                    <a href="index.html#about-section" class="bg-gray-100/90 backdrop-blur-sm text-gray-900 px-10 py-4 rounded-2xl text-lg font-bold shadow-xl hover:shadow-2xl border-2 border-gray-300 hover:border-green-500 transform hover:-translate-y-2 transition-all duration-300">
+                        Discover Our Story
+                    </a>
+                </div>
+
+                <!-- Enhanced Stats with Icons -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto stagger-children">
+                    <div class="bg-gray-50/80 backdrop-blur-md rounded-3xl p-8 shadow-xl hover:shadow-2xl transform hover:-translate-y-3 hover:scale-105 transition-all duration-500 border border-gray-200 animate-fade-in-up stagger-1 hover-lift">
+                        <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl hover:scale-110 transition-transform duration-300 animate-float">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-5xl font-bold gradient-text mb-2">2,500+</div>
+                        <div class="text-gray-600 font-medium">Happy Customers</div>
+                    </div>
+                    <div class="bg-gray-50/80 backdrop-blur-md rounded-3xl p-8 shadow-xl hover:shadow-2xl transform hover:-translate-y-3 hover:scale-105 transition-all duration-500 border border-gray-200 animate-fade-in-up stagger-2 hover-lift">
+                        <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl hover:scale-110 transition-transform duration-300 animate-float" style="animation-delay: 0.3s;">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                        </div>
+                        <div class="text-5xl font-bold gradient-text mb-2">75+</div>
+                        <div class="text-gray-600 font-medium">Premium Blends</div>
+                    </div>
+                    <div class="bg-gray-50/80 backdrop-blur-md rounded-3xl p-8 shadow-xl hover:shadow-2xl transform hover:-translate-y-3 hover:scale-105 transition-all duration-500 border border-gray-200 animate-fade-in-up stagger-3 hover-lift">
+                        <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl hover:scale-110 transition-transform duration-300 animate-float" style="animation-delay: 0.6s;">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-5xl font-bold gradient-text mb-2">24/7</div>
+                        <div class="text-gray-600 font-medium">Fresh Delivery</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="about" class="py-24 bg-gradient-to-b from-gray-50 via-gray-100/50 to-gray-50 relative layer-2">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20 scroll-fade-in">
+                <h2 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+                    <span class="gradient-text">Why Forest Brew?</span>
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed scroll-fade-in stagger-1">
+                    We're committed to bringing you the finest coffee experience, 
+                    <span class="text-green-700 font-semibold">sourced sustainably from nature's best.</span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 stagger-children">
+                <!-- Feature 1 -->
+                <div class="group p-10 rounded-3xl bg-gray-50/80 backdrop-blur-sm hover:bg-gray-100/80 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 hover:scale-105 border border-gray-200 scroll-slide-left hover-lift layer-3">
+                    <div class="w-20 h-20 bg-gradient-to-br from-green-600 to-emerald-700 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-xl">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-3xl font-bold text-gray-900 mb-4">Premium Quality</h3>
+                    <p class="text-gray-700 leading-relaxed text-lg">Sourced from the finest coffee forests worldwide, roasted to perfection with nature's touch.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="group p-10 rounded-3xl bg-gray-50/80 backdrop-blur-sm hover:bg-gray-100/80 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 hover:scale-105 border border-gray-200 scroll-scale-in stagger-1 hover-lift layer-3">
+                    <div class="w-20 h-20 bg-gradient-to-br from-green-600 to-emerald-700 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-xl animate-float">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-3xl font-bold text-gray-900 mb-4">Lightning Fast</h3>
+                    <p class="text-gray-700 leading-relaxed text-lg">Get your forest-fresh coffee delivered to your doorstep within 24 hours, anywhere.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="group p-10 rounded-3xl bg-gray-50/80 backdrop-blur-sm hover:bg-gray-100/80 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 hover:scale-105 border border-gray-200 scroll-slide-right stagger-2 hover-lift layer-3">
+                    <div class="w-20 h-20 bg-gradient-to-br from-green-600 to-emerald-700 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-xl animate-float" style="animation-delay: 0.5s;">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-3xl font-bold text-gray-900 mb-4">Secure & Safe</h3>
+                    <p class="text-gray-700 leading-relaxed text-lg">Bank-level security for all transactions. Your data and payments are always protected.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Preview Section -->
+    <section id="menu-section" class="py-24 bg-gradient-to-b from-gray-50 via-gray-100/30 to-gray-50 relative layer-2">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20 scroll-fade-in">
+                <h2 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+                    <span class="gradient-text">Our Forest Collection</span>
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed scroll-fade-in stagger-1">
+                    Discover our handpicked selection of premium forest-sourced coffees
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger-children">
+                <!-- Menu Item 1 -->
+                <div class="bg-gray-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 hover:scale-105 group border border-gray-200 scroll-scale-in hover-lift layer-3">
+                    <div class="h-56 relative overflow-hidden bg-gray-200">
+                        <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=800&q=80" alt="Mountain Espresso" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent group-hover:from-black/50 transition-all"></div>
+                        <div class="absolute top-5 right-5 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 text-lg font-bold text-green-700 shadow-lg">
+                            ₱350
+                        </div>
+                        <div class="absolute bottom-5 left-5 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-semibold text-green-700">
+                            🌲 Forest Blend
+                        </div>
+                    </div>
+                    <div class="p-7">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Mountain Espresso</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Rich and bold, harvested from high-altitude forests, perfect for espresso lovers</p>
+                        <button class="add-to-cart-btn w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3.5 rounded-xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl" data-id="1" data-name="Mountain Espresso" data-price="350" data-size="medium" data-image="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=800&q=80">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Menu Item 2 -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-2xl hover:shadow-green-500/30 transition-all duration-500 transform hover:-translate-y-4 hover:scale-105 group border border-green-100/50 scroll-scale-in stagger-1 hover-lift layer-3">
+                    <div class="h-56 relative overflow-hidden bg-gray-200">
+                        <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=800&q=80" alt="Colombian Forest" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent group-hover:from-black/50 transition-all"></div>
+                        <div class="absolute top-5 right-5 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 text-lg font-bold text-green-700 shadow-lg">
+                            ₱380
+                        </div>
+                        <div class="absolute bottom-5 left-5 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-semibold text-green-700">
+                            🌳 Rainforest
+                        </div>
+                    </div>
+                    <div class="p-7">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Colombian Forest</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Smooth and balanced with notes of caramel, sourced from Colombian rainforests</p>
+                        <button class="add-to-cart-btn w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3.5 rounded-xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl" data-id="2" data-name="Colombian Forest" data-price="380" data-size="medium" data-image="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=800&q=80">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Menu Item 3 -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-2xl hover:shadow-green-500/30 transition-all duration-500 transform hover:-translate-y-4 hover:scale-105 group border border-green-100/50 scroll-scale-in stagger-2 hover-lift layer-3">
+                    <div class="h-56 relative overflow-hidden bg-gray-200">
+                        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80" alt="Ethiopian Forest" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent group-hover:from-black/50 transition-all"></div>
+                        <div class="absolute top-5 right-5 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 text-lg font-bold text-green-700 shadow-lg">
+                            ₱420
+                        </div>
+                        <div class="absolute bottom-5 left-5 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-semibold text-green-700">
+                            🌿 Organic
+                        </div>
+                    </div>
+                    <div class="p-7">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Ethiopian Forest</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Fruity and floral, light roast perfection from ancient Ethiopian forests</p>
+                        <button class="add-to-cart-btn w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3.5 rounded-xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl" data-id="3" data-name="Ethiopian Forest" data-price="420" data-size="medium" data-image="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-16 scroll-fade-in">
+                <a href="menu.html" class="inline-block bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 text-white px-10 py-4 rounded-2xl text-lg font-bold shadow-2xl hover:shadow-green-500/50 transform hover:-translate-y-2 transition-all duration-300">
+                    Explore Full Menu →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Order Section -->
+    <section class="py-24 bg-gray-50 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20 scroll-fade-in">
+                <h2 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+                    <span class="gradient-text">How to Order</span>
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                    Get your favorite coffee in just a few simple steps
+                </p>
+            </div>
+
+            <!-- Step-by-Step Flow -->
+            <div class="relative max-w-4xl mx-auto">
+                <!-- Vertical Line -->
+                <div class="absolute left-8 md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-green-500 via-emerald-500 to-green-600 hidden md:block"></div>
+
+                <!-- Steps -->
+                <div class="space-y-16 md:space-y-24">
+                    <!-- Step 1 -->
+                    <div class="relative flex flex-col md:flex-row items-center gap-8 scroll-fade-in">
+                        <div class="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-green-600 to-emerald-700 rounded-full flex items-center justify-center shadow-2xl z-10 relative">
+                            <span class="text-2xl md:text-3xl font-bold text-white">1</span>
+                            <div class="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-20"></div>
+                        </div>
+                        <div class="flex-1 md:ml-8 md:mr-8 text-center md:text-left">
+                            <div class="bg-gray-50 rounded-3xl p-8 shadow-xl hover:shadow-2xl border border-gray-200 transform hover:-translate-y-2 transition-all duration-500 hover-lift">
+                                <h3 class="text-3xl font-bold text-gray-900 mb-4">Browse Our Menu</h3>
+                                <p class="text-lg text-gray-600 leading-relaxed">Explore our premium collection of forest-sourced coffees. Each blend is carefully selected for quality and flavor.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="relative flex flex-col md:flex-row-reverse items-center gap-8 scroll-fade-in">
+                        <div class="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-green-600 to-emerald-700 rounded-full flex items-center justify-center shadow-2xl z-10 relative">
+                            <span class="text-2xl md:text-3xl font-bold text-white">2</span>
+                            <div class="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-20" style="animation-delay: 0.2s;"></div>
+                        </div>
+                        <div class="flex-1 md:mr-8 md:ml-8 text-center md:text-right">
+                            <div class="bg-white rounded-3xl p-8 shadow-2xl hover:shadow-green-500/20 border border-green-100 transform hover:-translate-y-2 transition-all duration-500 hover-lift">
+                                <h3 class="text-3xl font-bold text-gray-900 mb-4">Add to Cart</h3>
+                                <p class="text-lg text-gray-600 leading-relaxed">Select your favorite blends and quantities. Mix and match to create your perfect coffee collection.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="relative flex flex-col md:flex-row items-center gap-8 scroll-fade-in">
+                        <div class="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-green-600 to-emerald-700 rounded-full flex items-center justify-center shadow-2xl z-10 relative">
+                            <span class="text-2xl md:text-3xl font-bold text-white">3</span>
+                            <div class="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-20" style="animation-delay: 0.4s;"></div>
+                        </div>
+                        <div class="flex-1 md:ml-8 md:mr-8 text-center md:text-left">
+                            <div class="bg-gray-50 rounded-3xl p-8 shadow-xl hover:shadow-2xl border border-gray-200 transform hover:-translate-y-2 transition-all duration-500 hover-lift">
+                                <h3 class="text-3xl font-bold text-gray-900 mb-4">Checkout & Pay</h3>
+                                <p class="text-lg text-gray-600 leading-relaxed">Enter your delivery details and complete your secure payment. We accept all major payment methods.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="relative flex flex-col md:flex-row-reverse items-center gap-8 scroll-fade-in">
+                        <div class="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-green-600 to-emerald-700 rounded-full flex items-center justify-center shadow-2xl z-10 relative">
+                            <span class="text-2xl md:text-3xl font-bold text-white">4</span>
+                            <div class="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-20" style="animation-delay: 0.6s;"></div>
+                        </div>
+                        <div class="flex-1 md:mr-8 md:ml-8 text-center md:text-right">
+                            <div class="bg-white rounded-3xl p-8 shadow-2xl hover:shadow-green-500/20 border border-green-100 transform hover:-translate-y-2 transition-all duration-500 hover-lift">
+                                <h3 class="text-3xl font-bold text-gray-900 mb-4">Enjoy Fresh Coffee</h3>
+                                <p class="text-lg text-gray-600 leading-relaxed">Receive your order within 24 hours. Track your delivery and enjoy premium coffee delivered fresh to your door.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center mt-20 scroll-fade-in">
+                <a href="menu.html" class="inline-block bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 text-white px-12 py-5 rounded-2xl text-xl font-bold shadow-2xl hover:shadow-green-500/50 transform hover:-translate-y-2 hover:scale-105 transition-all duration-300">
+                    Start Ordering Now →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about-section" class="py-24 bg-gradient-to-b from-white via-gray-50 to-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8 scroll-fade-in">
+                    <p class="text-sm font-semibold text-green-600 uppercase tracking-wide">Our Story</p>
+                    <h2 class="text-5xl font-bold text-gray-900 leading-tight">
+                        Coffee from Balagtas, brewed with care.
+                    </h2>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        We roast small batches, send them out the same day, and keep every step close to home. Each cup supports our Bulacan growers and adds another tree to their farms.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white rounded-3xl border border-gray-200 p-6 shadow-xl">
+                            <p class="text-4xl font-bold text-gray-900">36 hrs</p>
+                            <p class="text-sm uppercase tracking-wide text-gray-500">Roast-to-door</p>
+                        </div>
+                        <div class="bg-white rounded-3xl border border-gray-200 p-6 shadow-xl">
+                            <p class="text-4xl font-bold text-gray-900">4.9 / 5</p>
+                            <p class="text-sm uppercase tracking-wide text-gray-500">Flavor score</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-10 h-10 rounded-full bg-green-600/10 text-green-700 flex items-center justify-center font-bold">01</span>
+                            <div>
+                                <p class="font-semibold text-gray-900">Forest-sourced beans</p>
+                                <p class="text-sm text-gray-600">Hand-harvested lots from our Bulacan partner farms.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="w-10 h-10 rounded-full bg-green-600/10 text-green-700 flex items-center justify-center font-bold">02</span>
+                            <div>
+                                <p class="font-semibold text-gray-900">Micro-roasted daily</p>
+                                <p class="text-sm text-gray-600">Small-batch roasts to keep flavors bright.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="w-10 h-10 rounded-full bg-green-600/10 text-green-700 flex items-center justify-center font-bold">03</span>
+                            <div>
+                                <p class="font-semibold text-gray-900">Delivered fresh</p>
+                                <p class="text-sm text-gray-600">Packed fresh, delivered cold, no fuss.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative scroll-slide-right">
+                    <div class="rounded-3xl overflow-hidden shadow-2xl border border-gray-100">
+                        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1400&q=80" alt="Forest Brew Café roastery" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact-section" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+                <div class="scroll-fade-in space-y-8">
+                    <form class="bg-white border border-gray-200 rounded-3xl shadow-xl p-8 space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">First Name</label>
+                                <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" placeholder="Ava">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Last Name</label>
+                                <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" placeholder="Reyes">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+                            <input type="email" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" placeholder="you@email.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Message</label>
+                            <textarea rows="5" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all resize-none" placeholder="Tell us how we can help"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 text-white py-3.5 rounded-xl font-semibold hover:from-green-700 hover:via-emerald-700 hover:to-green-800 transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+                <div class="bg-white border border-gray-200 rounded-3xl shadow-xl p-10 scroll-slide-right space-y-8">
+                    <div>
+                        <p class="text-sm uppercase tracking-wide text-green-600">Visit or call</p>
+                        <h2 class="text-3xl font-bold text-gray-900 mt-2">We keep it simple.</h2>
+                        <p class="text-gray-600 mt-4">Send a quick note or drop by the bar—no booking links, no waiting lines.</p>
+                    </div>
+                    <div class="space-y-5">
+                        <div>
+                            <p class="text-sm font-semibold text-gray-500">Email</p>
+                            <p class="text-xl font-bold text-gray-900">hello@forestbrewcafe.com</p>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-500">Phone</p>
+                            <p class="text-xl font-bold text-gray-900">+63 912 345 6789</p>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-500">Address</p>
+                            <p class="text-xl font-bold text-gray-900">MacArthur Hwy, Balagtas, Bulacan</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500">Open daily, 7:00 AM – 9:00 PM. Walk-ins welcome.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location / Map Section -->
+    <section id="location" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6 scroll-fade-in">
+                    <p class="text-sm font-semibold text-green-600 uppercase tracking-wide">Visit Us</p>
+                    <h2 class="text-5xl font-bold text-gray-900 leading-tight">
+                        Forest Brew Café
+                    </h2>
+                    <p class="text-lg text-gray-600">
+                        MacArthur Highway, Balagtas, Bulacan<br>
+                        Open daily • 7:00 AM – 9:00 PM
+                    </p>
+                    <p class="text-gray-600">
+                        Swing by for beans, pour-overs, or to pick up your online order. Our team will pin your delivery spot for you if you need help.
+                    </p>
+                </div>
+                <div class="rounded-3xl overflow-hidden shadow-2xl border border-gray-200 scroll-slide-right">
+                    <div class="aspect-[4/3]">
+                        <iframe
+                            title="Forest Brew Café map"
+                            src="https://maps.google.com/maps?q=Balagtas%2C%20Bulacan&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                            width="100%"
+                            height="100%"
+                            style="border:0;"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                        ></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <img src="../Untitled.jpg" alt="Forest Brew Café" class="h-12 w-12 object-contain">
+                        <h3 class="text-2xl font-bold text-green-400">
+                            Forest Brew Café
+                        </h3>
+                    </div>
+                    <p class="text-gray-400 leading-relaxed">Premium coffee sourced from nature's finest forests, delivered fresh to your door.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-green-400">Explore Forest Brew</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="index.html#menu-section" class="hover:text-green-400 transition-colors">Menu</a></li>
+                        <li><a href="index.html#about-section" class="hover:text-green-400 transition-colors">About</a></li>
+                        <li><a href="index.html#contact-section" class="hover:text-green-400 transition-colors">Contact</a></li>
+                        <li><a href="index.html#location" class="hover:text-green-400 transition-colors">Location</a></li>
+                        <li><a href="cart.html" class="hover:text-green-400 transition-colors">Cart</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-green-400">Account</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#about-section" class="hover:text-green-400 transition-colors">About Us</a></li>
+                        <li><a href="#contact-section" class="hover:text-green-400 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-green-400">Contact</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li>Email: hello@forestbrewcafe.com</li>
+                        <li>Phone: +63 912 345 6789</li>
+                        <li>MacArthur Hwy, Balagtas, Bulacan</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Forest Brew Café. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/nav.js"></script>
+    <script src="../js/animations.js"></script>
+</body>
+</html>
