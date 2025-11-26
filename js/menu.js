@@ -26,9 +26,24 @@ async function loadMenuProducts() {
 
 function renderMenuGrid(products = []) {
     const menuGrid = document.getElementById('menu-grid');
-    if (!menuGrid || !products.length) return;
+    if (!menuGrid) return;
 
-    menuGrid.innerHTML = products.map((product, index) => createMenuCardMarkup(product, index)).join('');
+    if (!products.length) {
+        menuGrid.innerHTML = `
+            <div class="col-span-full text-center py-20 text-gray-500">
+                <p class="text-lg font-semibold">No products to display.</p>
+            </div>
+        `;
+        return;
+    }
+
+    menuGrid.innerHTML = products.map((product) => createMenuCardMarkup(product)).join('');
+    primeMenuItems();
+    bindSizeButtons();
+    wireCartButtons();
+}
+
+function primeMenuItems() {
     document.querySelectorAll('.menu-item').forEach(item => {
         if (!item.dataset.originalDisplay) {
             item.dataset.originalDisplay = getComputedStyle(item).display || 'flex';
@@ -36,17 +51,10 @@ function renderMenuGrid(products = []) {
     });
 }
 
-function hydrateMenuInteractions() {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const menuItems = document.querySelectorAll('.menu-item');
-
-    menuItems.forEach(item => {
-        if (!item.dataset.originalDisplay) {
-            item.dataset.originalDisplay = getComputedStyle(item).display || 'flex';
-        }
-    });
-
+function bindSizeButtons() {
     document.querySelectorAll('.size-btn').forEach(btn => {
+        if (btn.dataset.sizeWired === 'true') return;
+        btn.dataset.sizeWired = 'true';
         btn.addEventListener('click', function () {
             const parent = this.closest('.menu-item');
             const allSizeBtns = parent.querySelectorAll('.size-btn');
@@ -64,62 +72,78 @@ function hydrateMenuInteractions() {
             }
         });
     });
+}
+
+function wireCartButtons() {
+    if (typeof window.attachCartButtonHandlers === 'function') {
+        window.attachCartButtonHandlers();
+    }
+}
+
+function hydrateMenuInteractions() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
 
     filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterButtons.forEach(b => {
-                b.classList.remove('active', 'bg-green-600', 'text-white', 'scale-105');
-                b.classList.add('bg-gray-100', 'text-gray-700');
-            });
+        if (btn.dataset.filterWired === 'true') return;
+        btn.dataset.filterWired = 'true';
+        btn.addEventListener('click', () => handleFilterButtonClick(btn, filterButtons));
+    });
+}
 
-            btn.classList.add('active', 'bg-green-600', 'text-white', 'scale-105');
-            btn.classList.remove('bg-gray-100', 'text-gray-700');
+function handleFilterButtonClick(btn, filterButtons) {
+    filterButtons.forEach(b => {
+        b.classList.remove('active', 'bg-green-600', 'text-white', 'scale-105');
+        b.classList.add('bg-gray-100', 'text-gray-700');
+    });
 
-            const filter = btn.getAttribute('data-filter');
-            const matchingItems = [];
-            const nonMatchingItems = [];
+    btn.classList.add('active', 'bg-green-600', 'text-white', 'scale-105');
+    btn.classList.remove('bg-gray-100', 'text-gray-700');
 
-            menuItems.forEach((item, index) => {
-                const matches = filter === 'all' || item.getAttribute('data-category') === filter;
-                if (matches) {
-                    matchingItems.push({ item, index });
-                } else {
-                    nonMatchingItems.push(item);
-                }
-            });
+    const filter = btn.getAttribute('data-filter');
+    const matchingItems = [];
+    const nonMatchingItems = [];
+    const menuItems = document.querySelectorAll('.menu-item');
 
-            nonMatchingItems.forEach(item => {
-                item.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
-                item.style.opacity = '0';
-                item.style.transform = 'scale(0.9)';
-            });
+    menuItems.forEach((item, index) => {
+        const matches = filter === 'all' || item.getAttribute('data-category') === filter;
+        if (matches) {
+            matchingItems.push({ item, index });
+        } else {
+            nonMatchingItems.push(item);
+        }
+    });
+
+    nonMatchingItems.forEach(item => {
+        item.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
+        item.style.opacity = '0';
+        item.style.transform = 'scale(0.9)';
+    });
+
+    setTimeout(() => {
+        nonMatchingItems.forEach(item => {
+            item.style.display = 'none';
+        });
+
+        matchingItems.forEach(({ item, index }) => {
+            item.style.display = item.dataset.originalDisplay || 'flex';
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px) scale(0.95)';
 
             setTimeout(() => {
-                nonMatchingItems.forEach(item => {
-                    item.style.display = 'none';
-                });
-
-                matchingItems.forEach(({ item, index }) => {
-                    item.style.display = item.dataset.originalDisplay || 'flex';
-                    item.style.opacity = '0';
-                    item.style.transform = 'translateY(20px) scale(0.95)';
-
-                    setTimeout(() => {
-                        item.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
-                        item.style.opacity = '1';
-                        item.style.transform = 'translateY(0) scale(1)';
-                    }, index * 80);
-                });
-            }, 400);
+                item.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0) scale(1)';
+            }, index * 80);
         });
-    });
+    }, 400);
 }
 
 function createMenuCardMarkup(product) {
     const theme = product.ctaTheme || inferThemeFromCategory(product.category);
-    const defaultSize = product.sizes.find(size => size.key === product.defaultSize) || product.sizes[0];
-    const priceBadge = defaultSize ? formatCurrencySymbol(defaultSize.price) : formatCurrencySymbol(product.price || 0);
-    const sizeButtonsMarkup = product.sizes.map(size => createSizeButton(size, defaultSize, theme)).join('');
+    const defaultSizeEntry = product.sizes.find(size => size.key === product.defaultSize) || product.sizes[0];
+    const defaultPrice = Number(defaultSizeEntry?.price ?? product.price ?? 0);
+    const priceBadge = formatCurrencySymbol(defaultPrice);
+    const sizeButtonsMarkup = product.sizes.map(size => createSizeButton(size, defaultSizeEntry, theme)).join('');
     const buttonClasses = theme === 'amber'
         ? 'bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700'
         : 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700';
@@ -150,10 +174,10 @@ function createMenuCardMarkup(product) {
                     ` : `
                         <div class="flex items-center justify-between border border-gray-100 rounded-xl px-4 py-3">
                             <span class="text-sm font-semibold text-gray-600">Price</span>
-                            <span class="text-lg font-bold text-gray-900">${formatCurrencySymbol(product.price)}</span>
+                            <span class="text-lg font-bold text-gray-900">${formatCurrencySymbol(defaultPrice)}</span>
                         </div>
                     `}
-                    <button class="add-to-cart-btn w-full ${buttonClasses} text-white py-2.5 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 text-sm shadow-lg" data-id="${product.id}" data-name="${product.name}" data-price="${defaultSize?.price || product.price}" data-size="${defaultSize?.label || 'Standard'}" data-image="${product.image}">
+                    <button class="add-to-cart-btn w-full ${buttonClasses} text-white py-2.5 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 text-sm shadow-lg" data-id="${product.id}" data-name="${product.name}" data-price="${defaultPrice}" data-size="${defaultSizeEntry?.label || 'Standard'}" data-image="${product.image}">
                         Add to Cart
                     </button>
                 </div>
@@ -168,10 +192,12 @@ function inferThemeFromCategory(category = '') {
 }
 
 function mapSupabaseProductToMenuShape(product) {
-    const sizes = Array.isArray(product.sizes) && product.sizes.length ? product.sizes : [
-        { key: 'standard', label: 'Standard', price: Number(product.price) || 0 }
-    ];
-    const defaultSize = product.default_size || sizes[0]?.key || 'standard';
+    const normalizedSizes = Array.isArray(product.sizes) && product.sizes.length
+        ? product.sizes.map((size, index) => normalizeSizeEntry(size, index, product.price))
+        : [normalizeSizeEntry({ key: 'standard', label: 'Standard', price: product.price }, 0, product.price)];
+
+    const defaultSize = product.default_size || normalizedSizes[0]?.key || 'standard';
+
     return {
         id: product.slug || product.id,
         name: product.name,
@@ -183,13 +209,21 @@ function mapSupabaseProductToMenuShape(product) {
         availability: product.availability || 'In stock',
         ctaTheme: product.cta_theme || inferThemeFromCategory(product.category || ''),
         defaultSize,
-        sizes,
-        price: Number(product.price) || sizes[0]?.price || 0
+        sizes: normalizedSizes,
+        price: normalizedSizes[0]?.price || 0
     };
 }
 
+function normalizeSizeEntry(size, index, fallbackPrice) {
+    const price = Number(size.price ?? fallbackPrice) || 0;
+    const label = size.label || size.key || `Variant ${index + 1}`;
+    const key = size.key || label.toLowerCase().replace(/\s+/g, '-');
+
+    return { key, label, price };
+}
+
 function createSizeButton(size, defaultSize, theme) {
-    const isActive = size.key === defaultSize.key;
+    const isActive = size.key === defaultSize?.key;
     const activeClasses = theme === 'amber'
         ? 'bg-amber-600 text-white border-amber-600'
         : 'bg-green-600 text-white border-green-600';
@@ -198,8 +232,8 @@ function createSizeButton(size, defaultSize, theme) {
         : 'hover:border-green-500';
 
     return `
-        <button class="size-btn flex-1 py-2 px-3 text-xs font-semibold rounded-lg border-2 transition-all ${isActive ? activeClasses : `bg-gray-100 text-gray-700 border-gray-200 ${inactiveHoverClasses}`}" data-size="${size.label}" data-price="${size.price}">
-            ${size.label} ₱${size.price}
+        <button class="size-btn flex-1 py-2 px-3 text-xs font-semibold rounded-lg border-2 transition-all ${isActive ? activeClasses : `bg-gray-100 text-gray-700 border-gray-200 ${inactiveHoverClasses}`}" data-size="${size.label}" data-price="${Number(size.price) || 0}">
+            ${size.label} ${formatCurrencySymbol(size.price)}
         </button>
     `;
 }
